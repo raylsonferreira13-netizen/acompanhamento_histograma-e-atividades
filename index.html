@@ -44,6 +44,11 @@ button,input,select{font-family:inherit;font-size:13px}
 .side-nav .badge{margin-left:auto;background:var(--or);color:#fff;font-style:normal;font-size:10px;font-weight:900;border-radius:999px;padding:1px 7px}
 .pn-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:14px}
 .pn-grid > .card{margin-bottom:14px;min-width:0}
+.vg-back{display:inline-flex;align-items:center;gap:8px;background:var(--or);color:#fff;border:0;border-radius:10px;padding:9px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 4px 14px rgba(247,147,30,.35);font-family:inherit;transition:transform .15s,background .15s}
+.vg-back span{font-size:18px;line-height:1}.vg-back:hover{background:var(--or2);transform:translateX(-2px)}
+[data-vgt]{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.vg-on{font-size:22px;font-weight:900}
+.vg-back-end{display:flex;justify-content:center;margin:18px 0 6px}
+@media (max-width:640px){.vg-back{width:100%;justify-content:center;padding:12px 16px;font-size:15px}.vg-on{font-size:20px}}
 .vg-wk{display:flex;flex-direction:column;font-size:10px;font-weight:900;letter-spacing:.6px;text-transform:uppercase;color:var(--mut);gap:3px}
 .vg-wk select{border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:13px;text-transform:none;letter-spacing:0;font-weight:400;color:var(--tx);background:#fff}
 .vg-sum{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
@@ -1105,6 +1110,21 @@ const UI = {
   resumo: {obras:[], week:'__last__', sit:'', sub:'tabela', jr:'labor'},
 };
 const charts = {};
+/* toque no celular: a caixa de informação do gráfico some ao tocar fora do gráfico (ou sozinha após alguns segundos) */
+function hideChartTips(except){
+  const list = (typeof Chart !== 'undefined' && Chart.instances) ? Object.values(Chart.instances) : Object.values(charts);
+  for (const ch of list) { if (!ch || ch.canvas === except) continue;
+    try { const act = ch.getActiveElements ? ch.getActiveElements() : []; const tip = ch.tooltip && ch.tooltip.getActiveElements ? ch.tooltip.getActiveElements() : [];
+      if (act.length || tip.length) { ch.setActiveElements([]); if (ch.tooltip && ch.tooltip.setActiveElements) ch.tooltip.setActiveElements([], {x: 0, y: 0}); ch.update('none'); } } catch (e) {} }
+}
+let tipTimer = 0;
+document.addEventListener('pointerdown', e => {
+  const cv = e.target && e.target.tagName === 'CANVAS' ? e.target : null;
+  hideChartTips(cv);
+  clearTimeout(tipTimer);
+  if (cv && e.pointerType !== 'mouse') tipTimer = setTimeout(() => hideChartTips(), 4000);
+}, {passive: true});
+window.addEventListener('scroll', () => { if (matchMedia('(hover: none)').matches) hideChartTips(); }, {passive: true});
 function killChart(id){ if (charts[id]) { try { charts[id].destroy(); } catch (e) {} delete charts[id]; } }
 const journeys = {};
 
@@ -2518,8 +2538,40 @@ function journeyImage(jm, unit){
 }
 function doPrint(html){
   if (!libsOk()) return toast('Bibliotecas não carregadas.', 'err');
+  const mobile = matchMedia('(hover: none) and (pointer: coarse)').matches || window.innerWidth < 900;
+  if (mobile) return pdfDownload(html);
   $('#print-area').innerHTML = html;
   setTimeout(() => { window.print(); }, 120);
+}
+function loadScript(src){ return new Promise((ok, err) => { if (document.querySelector(`script[src="${src}"]`) && (src.includes('jspdf') ? window.jspdf : window.html2canvas)) return ok(); const s = document.createElement('script'); s.src = src; s.onload = () => ok(); s.onerror = () => err(new Error('não foi possível carregar ' + src.split('/').pop())); document.head.appendChild(s); }); }
+let pdfBusy = false;
+/** gera o PDF (A4 paisagem) no próprio aparelho e baixa o arquivo — no celular a impressão do navegador costuma falhar */
+async function pdfDownload(html){
+  if (pdfBusy) return; pdfBusy = true;
+  const pa = $('#print-area'); const old = pa.getAttribute('style') || '';
+  toast('Gerando PDF…', 'info');
+  try {
+    if (!window.jspdf) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
+    if (!window.html2canvas) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
+    pa.innerHTML = html; pa.setAttribute('style', 'display:block;position:fixed;left:-20000px;top:0;width:1062px;background:#fff;z-index:-1');
+    await Promise.all([...pa.querySelectorAll('img')].map(im => im.complete ? 0 : new Promise(r => { im.onload = im.onerror = r; })));
+    const pdf = new window.jspdf.jsPDF({orientation: 'landscape', unit: 'mm', format: 'a4'});
+    const M = 8, W = 297 - 2 * M, H = 210 - 2 * M; let first = true;
+    for (const pg of pa.querySelectorAll('.p-page')) {
+      const cv = await window.html2canvas(pg, {scale: 2, backgroundColor: '#ffffff', logging: false, useCORS: true, windowWidth: 1062});
+      const img = cv.toDataURL('image/jpeg', 0.92); const h = cv.height * W / cv.width;
+      for (let y = 0; y < h - 0.5; y += H) { if (!first) pdf.addPage(); first = false; pdf.addImage(img, 'JPEG', M, M - y, W, h); if (y > 0) { pdf.setFillColor(255, 255, 255); pdf.rect(0, 0, 297, M, 'F'); } pdf.setFillColor(255, 255, 255); pdf.rect(0, 210 - M, 297, M, 'F'); }
+    }
+    const tt = (pa.querySelector('.p-head .tt') || {}).textContent || 'relatorio';
+    const nm = norm(tt.replace(/^Controle de Histogramas\s*—\s*/, '')).toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '') || 'relatorio';
+    pdf.save(`${nm}_${todayYMD()}.pdf`);
+    toast('PDF gerado.', 'ok');
+  } catch (e) {
+    toast('Não foi possível gerar o PDF neste aparelho (' + (e && e.message || e) + '). Tentando a impressão do navegador…', 'err');
+    pa.setAttribute('style', old); pa.innerHTML = html; setTimeout(() => { try { window.print(); } catch (er) {} }, 150);
+    pdfBusy = false; return;
+  }
+  pa.setAttribute('style', old); pa.innerHTML = ''; pdfBusy = false;
 }
 window.addEventListener('afterprint', () => { $('#print-area').innerHTML = ''; });
 function printKind(kind){
@@ -3519,7 +3571,7 @@ function vgRestTable(d){
 function renderVGObra(sec){
   const w = VG.week, o = VG.obra; const d = vgObraData(o, w); VG._obra = d;
   const A = vgAttention(d); const U = vgUpcoming(d); const H3 = ['labor', 'equip'].map(k => histo3Data(k, o, w));
-  $('[data-vgt]', sec).innerHTML = `<button class="btn sm" data-vg="back">← Todas as obras</button> ${esc(d.label)}`;
+  $('[data-vgt]', sec).innerHTML = `<button class="vg-back" data-vg="back"><span aria-hidden="true">←</span> Todas as obras</button><span class="vg-on">${esc(d.label)}</span>`;
   $('[data-vgs]', sec).innerHTML = `${vgDot(d.sem.k)} <b style="color:${SEM[d.sem.k].c}">${SEM[d.sem.k].l}</b> — ${esc(d.sem.why)} · fechamento de ${esc(weekLabel(w, true))}`;
   const box = (t, n, items, empty, cls) => `<div class="card vg-att ${cls}"><div class="card-h"><h3>${t}</h3><span class="chip ${n ? cls : ''}">${n}</span></div>${n ? `<ul class="vg-ul">${items}</ul>` : `<div class="muted" style="padding:6px 2px">${empty}</div>`}</div>`;
   const dAlvo = x => { const n = daysBetween(d.ref, x.alvo); return n < 0 ? `<span class="chip err">vencido há ${-n} d</span>` : n === 0 ? '<span class="chip err">vence hoje</span>' : `<span class="chip warn">em ${n} d</span>`; };
@@ -3543,7 +3595,8 @@ function renderVGObra(sec){
       ${box('Início atrasado', A.ini.length, A.ini.slice(0, 10).map(x => vgItem(x, `${fmtBR(x.a.inicio_rev || x.a.inicio)}<br><span class="chip err">${x.diasAtraso} d</span>`)).join('') + (A.ini.length > 10 ? `<li class="muted">+${A.ini.length - 10} outro(s)</li>` : ''), 'Nenhum início atrasado.', 'err')}
       ${box('Impedimentos', A.imp.length, A.imp.slice(0, 10).map(x => vgItem(x, `<span class="chip warn">${esc(x.a.impedimentos)}</span>`)).join('') + (A.imp.length > 10 ? `<li class="muted">+${A.imp.length - 10} outro(s)</li>` : ''), 'Nenhum impedimento registrado.', 'warn')}
     </div>
-`;
+
+    <div class="vg-back-end"><button class="vg-back" data-vg="back"><span aria-hidden="true">←</span> Voltar para todas as obras</button></div>`;
   for (const k of ['labor', 'equip']) vgKindCharts(k, o, wks);
   VG._obra.H3 = H3; VG._obra.A = A; VG._obra.U = U;
 }

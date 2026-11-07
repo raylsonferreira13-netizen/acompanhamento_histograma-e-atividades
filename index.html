@@ -72,6 +72,18 @@ button,input,select{font-family:inherit;font-size:13px}
 .vg-ul li:last-child{border-bottom:0}.vg-ul li small{display:block;color:var(--mut);font-size:11.5px}.vg-ul .r{text-align:right;white-space:nowrap;font-size:12px}.vg-ul .r small{margin-top:2px}
 @media (max-width:1100px){.vg-row{grid-template-columns:repeat(2,minmax(0,1fr))}.vg-h{display:none}.vg-row > div[data-l]::before{content:attr(data-l);display:block;font-size:10px;font-weight:900;letter-spacing:.6px;text-transform:uppercase;color:var(--mut);margin-bottom:3px}.vg-ob{grid-column:1/-1}.vg-att3{grid-template-columns:minmax(0,1fr)}.vg-k4{grid-template-columns:repeat(2,minmax(0,1fr))}.vg-rule{margin-left:0}}
 @media (max-width:560px){.vg-row{grid-template-columns:minmax(0,1fr)}}
+.vg-jr2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;margin-bottom:14px}
+.vg-jr2 > .card{margin:0;min-width:0}
+.vg-jr2 .card-h{flex-wrap:wrap;row-gap:6px}.vg-jr2 .jr-leg{width:100%;order:9}.vg-jr2 .jr-leg button{font-size:11px;padding:3px 8px}
+.vg-jr2 .jr-grid{grid-template-columns:minmax(0,1fr);gap:10px}
+.vg-jr2 .jr-side,.vg-jr2 .jr-obra{display:none}
+.vg-jr2 .jr-top{margin-bottom:8px}.vg-jr2 .jr-read{margin-left:0;min-height:36px;padding:5px 10px}.vg-jr2 .jr-read .rv{font-size:20px}
+.vg-jr2 .jr-main{padding:10px}.vg-jr2 .jr-chart{height:230px}
+.vg-jr2 .jr-miles{grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:auto;gap:8px}
+.vg-jr2 .mile{padding:7px 9px}.vg-jr2 .mile .v{font-size:19px;margin-top:2px}.vg-jr2 .mile .w{font-size:10.5px;line-height:1.25}.vg-jr2 .mile .t{font-size:9.5px;letter-spacing:.3px}
+.vg-jr2 .mile .d{position:static;margin-top:3px}.vg-jr2 .mile .d .chip{font-size:10px;padding:1px 6px}
+@media (max-width:1150px){.vg-jr2{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:560px){.vg-jr2 .jr-miles{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .h3-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
 @media (max-width:900px){.h3-grid{grid-template-columns:minmax(0,1fr)}}
 .h3-box{min-width:0}.h3-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}.h3-top .h3-tt{margin:0}.h3-read{min-height:38px;padding:5px 10px}.h3-read .rv{font-size:20px}.h3-tt{font-weight:900;font-size:14px;margin:0 0 6px;padding-left:8px;border-left:4px solid var(--or)}
@@ -437,6 +449,8 @@ td.num{font-variant-numeric:tabular-nums;font-weight:700}
         <div class="cfg-acts"><button class="btn" data-db="cfg">🗄 Banco de dados</button></div></div>
       <div class="card"><div class="card-h"><h3>💾 Backup</h3></div><div class="cfg-txt">Cópia de segurança de todos os cadastros, semanas e lançamentos manuais (arquivo .json). Restaurar substitui os dados atuais, com confirmação.</div>
         <div class="cfg-acts"><button class="btn" id="btnBackup">⬇ Baixar backup</button><button class="btn" id="btnRestore">⬆ Restaurar backup</button></div></div>
+      <div class="card"><div class="card-h"><h3>☰ Menu</h3></div><div class="cfg-txt">Os painéis de <b>Mão de obra</b> e <b>Equipamentos</b> ficam ocultos no menu; os gráficos dessas abas aparecem na <b>Visão gerencial</b> de cada obra. A escolha vale para este navegador.</div>
+        <label style="display:flex;gap:8px;align-items:center;margin-top:8px;font-size:14px"><input type="checkbox" id="cfgPaineis" style="width:auto;min-height:0"> Mostrar os painéis de Mão de obra e Equipamentos no menu</label></div>
       <div class="card"><div class="card-h"><h3>🧹 Limpar dados</h3></div><div class="cfg-txt">Apaga os dados do app para recomeçar a importação — tudo ou só uma obra, por tipo de dado. Antes de apagar é criado um ponto de restauração. A planilha conectada não é alterada.</div>
         <div class="cfg-acts"><button class="btn danger" id="btnClearData">🧹 Limpar dados…</button></div></div>
       <div class="card"><div class="card-h"><h3>🕘 Pontos de restauração</h3></div><div class="cfg-txt">Criados automaticamente antes de cada importação e restauração (os 5 mais recentes, neste navegador). Use para desfazer uma importação.<div id="snapList" style="margin-top:8px"></div></div></div>
@@ -1728,8 +1742,8 @@ async function deleteRecord(kind, id){
 }
 
 /* ---------- importação ---------- */
-const GS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT1_F5MtPLrJTkP6All5p6W0rkPNkKG-D_aiX_zfrUSmJ07QguGEMH6xDBS-2-JyyaLHvaA4-7yNxNV/pubhtml';
-const GS_URL_OLD = ['https://docs.google.com/spreadsheets/d/1UULPop5fY9MYWFMIJt5YWGMJdKvTBbvu9R2qDIJjiCc'];
+const GS_URL = 'https://docs.google.com/spreadsheets/d/1UULPop5fY9MYWFMIJt5YWGMJdKvTBbvu9R2qDIJjiCc/edit';
+const GS_URL_OLD = ['https://docs.google.com/spreadsheets/d/e/2PACX-1vT1_F5MtPLrJTkP6All5p6W0rkPNkKG-D_aiX_zfrUSmJ07QguGEMH6xDBS-2-JyyaLHvaA4-7yNxNV'];
 function sheetGrid(ws){
   if (!ws || !ws['!ref']) return [];
   const rg = XLSX.utils.decode_range(ws['!ref']); const out = [];
@@ -2531,6 +2545,9 @@ const Sync = {
       const v = res.filter(r => !r.errors.length);
       out[k] = {sheet: sh, novos: v.filter(r => !r.existing).length, alterados: v.filter(r => r.changed).length, pend: res.length - v.length, total: res.length};
     }
+    { const sh = trkFindSheet('ativ', wb); const g = sh && sheetGrid(wb.Sheets[sh]); const h = g && trkMapHeaders('ativ', g);
+      if (h) { const res = analyzeTrk('ativ', g, h, h.map.obra == null ? obraLabel(TK.obra) : ''); const v = res.filter(r => !r.errors.length); out.ativ = {sheet: sh, novos: v.filter(r => !r.existing).length, alterados: v.filter(r => r.changed).length, pend: res.length - v.length, total: res.length}; }
+      else out.ativ = sh ? {sheet: sh, novos: 0, alterados: 0, pend: 0, total: 0, bad: true} : null; }
     return out;
   },
   async run(manual){
@@ -2540,7 +2557,7 @@ const Sync = {
     try {
       this.wb = await fetchPublishedWorkbook(cfg.url, {labor: cfg.gidL, equip: cfg.gidE}); this.at = new Date(); this.lastWb = this.wb; this.lastSrc = 'Planilha conectada'; this.lastAt = this.at;
       this.paint();
-      if (manual) { const sm = this.summarize(this.wb); if (['labor', 'equip', 'manual'].some(k => sm[k] && (sm[k].novos || sm[k].alterados || sm[k].pend))) this.review(); else toast('O app já está igual à planilha.', 'ok'); }
+      if (manual) { const sm = this.summarize(this.wb); if (['labor', 'equip', 'manual'].some(k => sm[k] && (sm[k].novos || sm[k].alterados || sm[k].pend))) this.review(); else if (sm.ativ && (sm.ativ.novos || sm.ativ.alterados || sm.ativ.pend)) this.reviewAtiv(); else toast('O app já está igual à planilha.', 'ok'); }
     } catch (e) {
       Log.add('Não foi possível ler a planilha conectada — ' + e.message + ' Sem acesso pelo link, use “Importar planilha” com o arquivo .xlsx baixado.', 'err');
       this.bar('err', `<b>Planilha não conectada</b> · <a href="#" data-sync="avisos" style="color:inherit">ver detalhes em Avisos</a>`, `<button class="btn sm" data-sync="run">Tentar de novo</button><button class="btn sm" data-sync="cfg">Conexão</button>`);
@@ -2549,12 +2566,14 @@ const Sync = {
   paint(){
     if (!this.wb) return; if (UI.tab === 'config') renderConfig(); if (UI.tab === 'avisos') renderAvisos();
     const sm = this.summarize(this.wb); const hh = this.at.toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'});
-    const part = k => { const x = sm[k]; const nm = IMPORT_SHEET[k]; if (!x) return `aba ${nm}: não encontrada`; const bits = []; if (x.novos) bits.push(`<b>${x.novos} novo(s)</b>`); if (x.alterados) bits.push(`<b>${x.alterados} alterado(s)</b>`); if (x.pend) bits.push(`${x.pend} com erro`); return `aba ${nm}: ${bits.length ? bits.join(', ') : 'sem novidades'}`; };
+    const part = k => { const x = sm[k]; const nm = k === 'ativ' ? 'Atividades' : IMPORT_SHEET[k]; if (k === 'ativ' && x && x.bad) return 'aba Atividades: cabeçalhos não reconhecidos'; if (!x) return `aba ${nm}: não encontrada`; const bits = []; if (x.novos) bits.push(`<b>${x.novos} novo(s)</b>`); if (x.alterados) bits.push(`<b>${x.alterados} alterado(s)</b>`); if (x.pend) bits.push(`${x.pend} com erro`); return `aba ${nm}: ${bits.length ? bits.join(', ') : 'sem novidades'}`; };
     const chg = ['labor', 'equip', 'manual'].some(k => sm[k] && (sm[k].novos || sm[k].alterados));
-    this.bar(chg ? 'chg' : 'ok', `<b>Planilha conectada</b> · lida às ${hh} · ${part('labor')} · ${part('equip')}${sm.manual ? ' · ' + part('manual') : ''}`,
-      `${chg || ['labor', 'equip', 'manual'].some(k => sm[k] && sm[k].pend) ? '<button class="btn sm primary" data-sync="review">Revisar e importar</button>' : ''}<button class="btn sm" data-sync="run">⟳ Ler de novo</button>`);
+    const chA = sm.ativ && (sm.ativ.novos || sm.ativ.alterados || sm.ativ.pend);
+    this.bar(chg || chA ? 'chg' : 'ok', `<b>Planilha conectada</b> · lida às ${hh} · ${part('labor')} · ${part('equip')}${sm.manual ? ' · ' + part('manual') : ''} · ${part('ativ')}`,
+      `${chg || ['labor', 'equip', 'manual'].some(k => sm[k] && sm[k].pend) ? '<button class="btn sm primary" data-sync="review">Revisar e importar</button>' : ''}${chA ? '<button class="btn sm primary" data-sync="ativ">Importar atividades</button>' : ''}<button class="btn sm" data-sync="run">⟳ Ler de novo</button>`);
   },
   review(){ if (this.wb) openImport(UI.tab === 'equip' ? 'equip' : 'labor', this.wb, `Planilha conectada (lida às ${this.at.toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'})})`); },
+  reviewAtiv(){ if (this.wb) openTrkImport(this.wb, `Planilha conectada (lida às ${this.at.toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'})})`); },
   markImported(){ setTimeout(() => this.paint(), 0); },
   auto(){ if (sheetCfg().auto) this.run(false); else this.bar('', 'Planilha conectada — leitura automática desativada.', '<button class="btn sm" data-sync="run">⟳ Ler agora</button><button class="btn sm" data-sync="cfg">Conexão</button>'); },
   config(){
@@ -2571,7 +2590,7 @@ const Sync = {
     $('[data-ok]', md.el).onclick = () => { const n = {url: $('[data-c=url]', md.el).value.trim(), gidL: $('[data-c=gidL]', md.el).value.trim(), gidE: $('[data-c=gidE]', md.el).value.trim(), auto: $('[data-c=auto]', md.el).checked}; saveSheetCfg(n); md.close(); this.run(true); };
   }
 };
-document.addEventListener('click', e => { const b = e.target.closest('[data-sync]'); if (!b) return; const a = b.dataset.sync; e.preventDefault(); if (a === 'run') Sync.run(true); else if (a === 'review') Sync.review(); else if (a === 'cfg') Sync.config(); else if (a === 'avisos') switchTab('avisos'); });
+document.addEventListener('click', e => { const b = e.target.closest('[data-sync]'); if (!b) return; const a = b.dataset.sync; e.preventDefault(); if (a === 'run') Sync.run(true); else if (a === 'review') Sync.review(); else if (a === 'ativ') Sync.reviewAtiv(); else if (a === 'cfg') Sync.config(); else if (a === 'avisos') switchTab('avisos'); });
 function paintStorage(){ const el = document.getElementById('storeUse'); if (!el) return; const mb = Repo.lastBytes / 1048576; el.innerHTML = `Armazenamento usado: <b>${mb < 0.1 ? Math.max(1, Math.round(Repo.lastBytes / 1024)) + ' KB' : mb.toLocaleString('pt-BR', {maximumFractionDigits: 1}) + ' MB'}</b> de ~5 MB`; el.style.color = mb > 4 ? '#FCA5A5' : ''; }
 function paintLogo(){ $('#logoBox').innerHTML = logoHTML(false); $('#logoBoxM').innerHTML = logoHTML(false); }
 /* =====================================================================
@@ -3227,7 +3246,12 @@ function commitTrk(kind, results){
     else { const n = {id: uid(), ...r.rec, createdAt: now}; Repo.data[kind].push(n); idx.set(k, n); if (kind === 'ativ') { syncRealizada(n, n.realizada); syncDatas(n); } c++; } }
   return {created: c, updated: u};
 }
-function openTrkImport(){
+function trkFindSheet(k, wb){
+  let sh = wb.SheetNames.find(n => trkSheetMatch(k, n));
+  if (!sh && k === 'ativ') sh = wb.SheetNames.find(n => !/^(mo|maodeobra|equipamentos?|resumo|instrucoes|listas)$/.test(normHeader(n)) && trkMapHeaders(k, sheetGrid(wb.Sheets[n])));
+  return sh;
+}
+function openTrkImport(wb0, src0){
   if (!libsOk()) return toast('Bibliotecas não carregadas.', 'err');
   const st = {wb: null, src: '', parts: {}};
   const body = `<div class="alert info" style="font-size:12px">Lê a aba <b>Atividades</b> (Trecho, Serviço, Tipo, Und., Qtd. Prevista, Qtd. Realizada, Início/Término Previsto, Início/Término Revisado, Impedimentos). Se a aba não tiver coluna <b>Obra</b>, escolha a obra abaixo. A Qtd. Realizada é gravada como avanço da semana atual (histórico para ritmo e previsão). Linhas existentes são atualizadas só nos campos preenchidos; nada é apagado.</div>
@@ -3247,8 +3271,7 @@ function openTrkImport(){
     st.wb = wb; st.src = src; st.parts = {};
     const html = TRK_ON.map(k => {
       const S = TRACK[k];
-      let sh = wb.SheetNames.find(n => trkSheetMatch(k, n));
-      if (!sh && k === 'ativ') sh = wb.SheetNames.find(n => !/^(mo|maodeobra|equipamentos?|resumo|instrucoes|listas)$/.test(normHeader(n)) && trkMapHeaders(k, sheetGrid(wb.Sheets[n])));
+      const sh = trkFindSheet(k, wb);
       if (!sh) return `<div class="card" style="box-shadow:none;margin-bottom:10px"><b>${S.title}</b> <span class="muted" style="font-size:13px">— aba “${S.sheet}” não encontrada (ignorada).</span></div>`;
       const grid = sheetGrid(wb.Sheets[sh]); const hdr = trkMapHeaders(k, grid);
       if (!hdr) return `<div class="card" style="box-shadow:none;margin-bottom:10px"><b>${S.title}</b> <div class="alert err" style="margin-top:6px">Cabeçalhos não reconhecidos na aba “${esc(sh)}”. Esperado: ${S.fields.map(f => f.l).join(', ')}.</div></div>`;
@@ -3283,8 +3306,9 @@ function openTrkImport(){
     if (!res.ok) return;
     toast('Acompanhamento importado — ' + Object.entries(res.out).map(([k, r]) => `${TRACK[k].title}: ${r.created} novo(s), ${r.updated} alterado(s)`).join(' · ') + '.', 'ok');
     const first = Repo.data.ativ[0]; if (!TK.obra && first) TK.obra = obraKey(first.obra);
-    m.close(); refreshAll();
+    m.close(); refreshAll(); if (typeof Sync !== 'undefined') Sync.markImported();
   };
+  if (wb0) setWb(wb0, src0 || 'Planilha conectada');
 }
 function trkTemplateSheets(wb){
   for (const k of TRK_ON) { const S = TRACK[k]; const h = S.tpl || S.fields.filter(f => !f.hidden).map(f => f.l); const ws = XLSX.utils.aoa_to_sheet([h]); ws['!cols'] = h.map(l => ({wch: l === 'Serviço' ? 50 : l === 'Impedimentos' ? 30 : Math.max(12, l.length + 4)})); XLSX.utils.book_append_sheet(wb, ws, S.sheet); }
@@ -3402,7 +3426,8 @@ function renderVG(){
     sec.innerHTML = `<div class="toolbar"><div><h2 data-vgt>Visão gerencial</h2><div class="sub" data-vgs></div></div><div class="acts"><label class="vg-wk">Semana de referência<select data-vgw></select></label><button class="btn dark" data-vg="pdf">⎙ PDF</button></div></div><div data-vgb></div>`;
   }
   vgPickers(sec);
-  ['at-h-labor', 'at-h-equip', 'vg-h-labor', 'vg-h-equip'].forEach(killChart);
+  ['at-h-labor', 'at-h-equip', 'vg-h-labor', 'vg-h-equip', 'vg-hist-labor', 'vg-hist-equip'].forEach(killChart);
+  for (const id of ['vg-jr-labor', 'vg-jr-equip']) { if (journeys[id]) cancelAnimationFrame(journeys[id].raf); killChart(id); }
   if (VG.obra && !vgObras().includes(VG.obra)) VG.obra = '';
   if (VG.obra) return renderVGObra(sec);
   const w = VG.week; const list = vgObras().map(o => vgObraData(o, w)).sort((a, b) => SEM[a.sem.k].o - SEM[b.sem.k].o || (a.m.real - a.m.plan) - (b.m.real - b.m.plan) || a.label.localeCompare(b.label, 'pt-BR'));
@@ -3440,6 +3465,24 @@ function vgUpcoming(d, nW = 3){
   return out.sort((a, b) => a.d.localeCompare(b.d));
 }
 const vgItem = (x, right) => `<li><div><b>${esc(x.a.nome)}</b><small>${esc(x.a.trecho || '')}</small></div><div class="r">${right}</div></li>`;
+/* gráficos iguais aos das abas Mão de obra / Equipamentos (histograma semana a semana + percurso), só desta obra */
+function vgKindCharts(kind, o, weeks){
+  const f = {...blankFilter(), obras: [o], weeks}; const model = histogramModel(kind, f, 'semanaobra');
+  const box = $(`[data-vgj="${kind}"]`);
+  renderJourney(box, 'vg-jr-' + kind, obraJourneys(kind, model, f), {unit: KINDS[kind].unit, subtitle: `últimas ${weeks.length} semanas`});
+  const h = $('.card-h h3', box); if (h) h.textContent = kind === 'labor' ? 'Mão de obra' : 'Equipamentos';
+}
+function vgRestTable(d){
+  const rows = d.m.rows.filter(x => x.status !== 'Concluída');
+  const ord = {'Término atrasado': 0, 'Início atrasado': 1, 'Em andamento': 2, 'Não iniciada': 3};
+  rows.sort((a, b) => (ord[a.status] ?? 9) - (ord[b.status] ?? 9) || String(a.alvo || '9').localeCompare(String(b.alvo || '9')));
+  const dt = (p, r) => r && r !== p ? `<b>${fmtBR(r)}</b> <small class="chip or" style="padding:0 5px">rev.</small>` : (fmtBR(p) || '—');
+  return `<div class="card"><div class="card-h"><h3>Atividades restantes</h3><span class="hint">${rows.length} de ${d.m.n} serviço(s)</span><span class="sp"></span><button class="btn sm" data-vg="ativ">Abrir na aba Atividades →</button></div>
+    ${rows.length ? `<div class="tbl-wrap"><table><thead><tr><th>Trecho</th><th>Serviço</th><th>Avanço (real × plan.)</th><th>Início</th><th>Término</th><th>Status</th><th>Impedimentos</th></tr></thead><tbody>
+    ${rows.map(x => `<tr><td class="l">${esc(x.a.trecho || '')}</td><td class="l" style="white-space:normal;min-width:220px"><b>${esc(x.a.nome)}</b></td><td style="min-width:140px">${progBar(x.real, x.plan)}<small class="muted">${pctTxt(x.real, 0)} · plan. ${pctTxt(x.plan, 0)}</small></td>
+      <td>${dt(x.a.inicio, x.a.inicio_rev)}</td><td>${dt(x.a.fim, x.a.revisado)}</td><td>${stChip(x.status, x.diasAtraso)}</td><td class="l" style="white-space:normal">${x.a.impedimentos ? `<span class="chip warn">${esc(x.a.impedimentos)}</span>` : ''}</td></tr>`).join('')}
+    </tbody></table></div>` : '<div class="muted" style="padding:6px 2px">Nenhuma atividade restante.</div>'}</div>`;
+}
 function renderVGObra(sec){
   const w = VG.week, o = VG.obra; const d = vgObraData(o, w); VG._obra = d;
   const A = vgAttention(d); const U = vgUpcoming(d); const H3 = ['labor', 'equip'].map(k => histo3Data(k, o, w));
@@ -3447,24 +3490,28 @@ function renderVGObra(sec){
   $('[data-vgs]', sec).innerHTML = `${vgDot(d.sem.k)} <b style="color:${SEM[d.sem.k].c}">${SEM[d.sem.k].l}</b> — ${esc(d.sem.why)} · fechamento de ${esc(weekLabel(w, true))}`;
   const box = (t, n, items, empty, cls) => `<div class="card vg-att ${cls}"><div class="card-h"><h3>${t}</h3><span class="chip ${n ? cls : ''}">${n}</span></div>${n ? `<ul class="vg-ul">${items}</ul>` : `<div class="muted" style="padding:6px 2px">${empty}</div>`}</div>`;
   const dAlvo = x => { const n = daysBetween(d.ref, x.alvo); return n < 0 ? `<span class="chip err">vencido há ${-n} d</span>` : n === 0 ? '<span class="chip err">vence hoje</span>' : `<span class="chip warn">em ${n} d</span>`; };
+  const VGW = 8; const wks = []; for (let i = VGW - 1; i >= 0; i--) wks.push(weekPlus(w, -i));
+  const kHtml = k => `<div class="card journey" data-vgj="${k}"></div>`;
   $('[data-vgb]', sec).innerHTML = `
+    <div class="vg-jr2">${kHtml('labor')}${kHtml('equip')}</div>
+    <h3 class="vg-h3" style="margin-top:6px">Atividades</h3>
     <div class="vg-k4">
       <div class="kpi dark" style="--c:#F7931E"><div class="l">Avanço físico</div>${vgAvBar(d.m)}</div>
       <div class="kpi" style="--c:#DC2626"><div class="l">Atrasadas</div><div class="v">${fmtN(d.atr)}</div><div class="s">${d.tv} no término · ${d.ia} no início</div></div>
       <div class="kpi" style="--c:#D97706"><div class="l">Com impedimento</div><div class="v">${fmtN(d.imp)}</div><div class="s">de ${d.rest} serviço(s) restante(s)</div></div>
       <div class="kpi" style="--c:#334155"><div class="l">Efetivo da semana</div><div class="vg-k-ef"><div><b>${d.L.cur == null ? '—' : fmtN(d.L.cur)}</b> pessoas ${vgDelta(d.L.d)}</div><div><b>${d.E.cur == null ? '—' : fmtN(d.E.cur)}</b> equip. ${vgDelta(d.E.d)}</div></div></div>
     </div>
+    <div class="card"><div class="card-h"><h3>Próximas 3 semanas</h3><span class="hint">serviços que começam ou terminam até ${fmtBR(ymdAdd(d.ref, 21))}</span></div>
+      ${U.length ? `<div class="tbl-wrap"><table><thead><tr><th>Data</th><th>Evento</th><th>Serviço</th><th>Trecho</th><th>Avanço</th><th>Impedimento</th></tr></thead><tbody>${U.map(u => `<tr><td><b>${fmtBR(u.d)}</b></td><td><span class="chip ${u.t === 'Começa' ? 'or' : ''}">${u.t}</span></td><td class="l" style="white-space:normal"><b>${esc(u.x.a.nome)}</b></td><td class="l">${esc(u.x.a.trecho || '')}</td><td>${pctTxt(u.x.real, 0)}</td><td class="l">${u.x.a.impedimentos ? `<span class="chip warn">${esc(u.x.a.impedimentos)}</span>` : ''}</td></tr>`).join('')}</tbody></table></div>` : '<div class="muted" style="padding:6px 2px">Nenhum serviço começa ou termina nas próximas 3 semanas.</div>'}</div>
+    ${vgRestTable(d)}
     <h3 class="vg-h3">Precisa de atenção</h3>
     <div class="vg-att3">
       ${box('Término vencido ou nos próximos 7 dias', A.term.length, A.term.slice(0, 10).map(x => vgItem(x, `${fmtBR(x.alvo)}<br>${dAlvo(x)}<small>${pctTxt(x.real, 0)} feito</small>`)).join('') + (A.term.length > 10 ? `<li class="muted">+${A.term.length - 10} outro(s)</li>` : ''), 'Nenhum término vencido ou vencendo.', 'err')}
       ${box('Início atrasado', A.ini.length, A.ini.slice(0, 10).map(x => vgItem(x, `${fmtBR(x.a.inicio_rev || x.a.inicio)}<br><span class="chip err">${x.diasAtraso} d</span>`)).join('') + (A.ini.length > 10 ? `<li class="muted">+${A.ini.length - 10} outro(s)</li>` : ''), 'Nenhum início atrasado.', 'err')}
       ${box('Impedimentos', A.imp.length, A.imp.slice(0, 10).map(x => vgItem(x, `<span class="chip warn">${esc(x.a.impedimentos)}</span>`)).join('') + (A.imp.length > 10 ? `<li class="muted">+${A.imp.length - 10} outro(s)</li>` : ''), 'Nenhum impedimento registrado.', 'warn')}
     </div>
-    <div class="card"><div class="card-h"><h3>Próximas 3 semanas</h3><span class="hint">serviços que começam ou terminam até ${fmtBR(ymdAdd(d.ref, 21))}</span></div>
-      ${U.length ? `<div class="tbl-wrap"><table><thead><tr><th>Data</th><th>Evento</th><th>Serviço</th><th>Trecho</th><th>Avanço</th><th>Impedimento</th></tr></thead><tbody>${U.map(u => `<tr><td><b>${fmtBR(u.d)}</b></td><td><span class="chip ${u.t === 'Começa' ? 'or' : ''}">${u.t}</span></td><td class="l" style="white-space:normal"><b>${esc(u.x.a.nome)}</b></td><td class="l">${esc(u.x.a.trecho || '')}</td><td>${pctTxt(u.x.real, 0)}</td><td class="l">${u.x.a.impedimentos ? `<span class="chip warn">${esc(u.x.a.impedimentos)}</span>` : ''}</td></tr>`).join('')}</tbody></table></div>` : '<div class="muted" style="padding:6px 2px">Nenhum serviço começa ou termina nas próximas 3 semanas.</div>'}</div>
-    <div class="card"><div class="card-h"><h3>Histograma — últimas 3 semanas</h3><span class="hint">efetivo no fechamento de cada semana</span><span class="sp"></span><button class="btn sm" data-vg="ativ">Ver todas as atividades →</button></div>
-      <div class="h3-grid">${H3.map(h => `<div class="h3-box"><div class="h3-top"><div class="h3-tt">${h.kind === 'labor' ? 'Mão de obra' : 'Equipamentos'}</div>${h.any ? histo3Read(h) : ''}</div>${h.any ? `<div class="jr-frame"><div style="position:relative;height:240px"><canvas id="vgH-${h.kind}"></canvas></div></div>${histo3Table(h)}` : '<div class="empty" style="padding:22px"><b>Sem histograma nestas 3 semanas</b></div>'}</div>`).join('')}</div></div>`;
-  for (const h of H3) { const cv = $(`#vgH-${h.kind}`); if (cv && h.any) charts['vg-h-' + h.kind] = new Chart(cv, histo3Config(h, false)); }
+`;
+  for (const k of ['labor', 'equip']) vgKindCharts(k, o, wks);
   VG._obra.H3 = H3; VG._obra.A = A; VG._obra.U = U;
 }
 document.addEventListener('click', e => { if (e.target.closest('[data-vgo]')) { VG.obra = TK.obra; VG.week = TK.week; switchTab('vg'); } });
@@ -3527,7 +3574,15 @@ function paintSideMini(err){
     ? `<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${err ? '#EF4444' : DB.pending ? '#F7931E' : '#22C55E'};margin-right:5px"></span>Banco compartilhado${DB.pending ? ' · salvando…' : ''}`
     : `<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#A1A1AA;margin-right:5px"></span>Modo local (este navegador)`;
 }
+const LS_PAINEIS = 'cosampa_menu_paineis';
+function showPaineis(){ try { return localStorage.getItem(LS_PAINEIS) === '1'; } catch (e) { return !!UI._paineis; } }
+function applyMenu(){
+  const on = showPaineis();
+  $$('#tabs button[data-tab=labor], #tabs button[data-tab=equip]').forEach(b => b.hidden = !on);
+  if (!on && (UI.tab === 'labor' || UI.tab === 'equip')) switchTab('vg');
+}
 function renderConfig(){
+  const cp = document.getElementById('cfgPaineis'); if (cp) { cp.checked = showPaineis(); cp.onchange = () => { UI._paineis = cp.checked; try { localStorage.setItem(LS_PAINEIS, cp.checked ? '1' : '0'); } catch (e) {} applyMenu(); toast(cp.checked ? 'Painéis de Mão de obra e Equipamentos visíveis no menu.' : 'Painéis de Mão de obra e Equipamentos ocultos no menu.', 'ok'); }; }
   const ch = document.getElementById('curHost'); if (ch) ch.textContent = location.host || 'arquivo local';
   const c = sheetCfg();
   const short = c.url.length > 70 ? c.url.slice(0, 67) + '…' : c.url;
@@ -3642,7 +3697,7 @@ function init(){
   };
   $('#fileLogo').onchange = e => { const f = e.target.files[0]; if (!f) return; const rd = new FileReader(); rd.onload = () => { try { localStorage.setItem(LS_LOGO, rd.result); paintLogo(); toast('Logo atualizado (salvo neste navegador).', 'ok'); } catch (er) { toast('Imagem muito grande para salvar.', 'err'); } }; rd.readAsDataURL(f); };
   let rT; window.addEventListener('resize', () => { clearTimeout(rT); rT = setTimeout(() => { if ((UI.tab === 'labor' || UI.tab === 'equip') && UI._last[UI.tab]) renderHist(UI.tab, UI._last[UI.tab]); }, 250); });
-  switchTab('labor');
+  switchTab(showPaineis() ? 'labor' : 'vg'); applyMenu();
   $('#btnSync').onclick = $('#btnSync2').onclick = $('#btnSyncM').onclick = () => Sync.run(true);
   $('#btnSyncCfg').onclick = () => Sync.config();
   // Dados: banco compartilhado (se configurado) ou armazenamento local

@@ -3628,10 +3628,6 @@ function renderVG(){
   $('[data-vgs]', sec).innerHTML = `Situação no fechamento de ${esc(weekLabel(w, true))}.`;
   const cnt = k => list.filter(x => x.sem.k === k).length;
   $('[data-vgb]', sec).innerHTML = !list.length ? `<div class="card"><div class="empty"><b>Nenhuma obra cadastrada</b>Importe a planilha de mão de obra, equipamentos ou atividades.</div></div>` : `
-    <div class="vg-pick">
-      <div class="vg-pick-t"><span class="vg-pick-ic" aria-hidden="true">👆</span><div><b>Escolha uma obra para ver o detalhe</b><small>percurso do efetivo, atividades restantes, próximas semanas e pendências</small></div></div>
-      <label class="vg-pick-s"><span>Abrir obra</span><select data-vgpick><option value="">Selecione…</option>${list.map(x => `<option value="${esc(x.o)}">${esc(x.label)} — ${SEM[x.sem.k].l}</option>`).join('')}</select></label>
-    </div>
     <div class="vg-sum">${['r', 'y', 'g', 'n'].filter(k => cnt(k) || k !== 'n').map(k => `<div class="vg-pill" style="--c:${SEM[k].c}">${vgDot(k)}<b>${cnt(k)}</b> ${SEM[k].l}</div>`).join('')}
       <span class="muted vg-rule">🔴 término vencido ou &gt; 15 p.p. abaixo do planejado · 🟡 5–15 p.p. abaixo, impedimento ou início atrasado</span></div>
     <div class="card vg-card"><div class="vg-tbl">

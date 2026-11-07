@@ -65,6 +65,19 @@ button,input,select{font-family:inherit;font-size:13px}
 .vg-go{display:flex;align-items:center;justify-content:center;gap:6px;border:1.5px solid var(--or);color:#C2410C;background:#fff;border-radius:999px;padding:7px 12px;font-weight:800;font-size:13px;white-space:nowrap;transition:background .15s,color .15s}
 .vg-go i{font-style:normal;font-size:16px;transition:transform .15s}
 @media (hover:hover){.vg-row:hover .vg-go{background:var(--or);color:#fff}.vg-row:hover .vg-go i{transform:translateX(3px)}}
+.vg-go-m{display:none}
+.vg-ob b{font-size:16px;font-weight:900}
+@media (max-width:1100px){
+  .card.vg-card{background:transparent;box-shadow:none;border:0;padding:0;overflow:visible}
+  .vg-tbl{gap:14px}
+  .vg-row{border:1.5px solid #E2E5EA;border-left:6px solid var(--c,#9CA3AF);border-radius:14px;box-shadow:0 2px 6px rgba(16,24,40,.06),0 8px 22px rgba(16,24,40,.06);padding:14px 14px 12px;gap:12px 14px}
+  .vg-ob{align-items:center;padding:2px 0 12px;border-bottom:1px solid #EEF0F3;gap:10px}
+  .vg-obn{flex:1;min-width:0}
+  .vg-ob b{font-size:19px;letter-spacing:.2px;color:#111827}
+  .vg-ob small{font-size:12.5px}
+  .vg-go-m{display:inline-flex;flex:none;background:var(--or);color:#fff;border-color:var(--or);box-shadow:0 4px 12px rgba(247,147,30,.35);padding:9px 14px;font-size:14px}
+  .vg-row > .vg-go{display:none}
+}
 .vg-pick{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:#fff;border:1px solid #FBC98A;border-left:5px solid var(--or);border-radius:12px;padding:12px 16px;margin-bottom:12px;box-shadow:var(--sh)}
 .vg-pick-t{display:flex;align-items:center;gap:12px;flex:1;min-width:240px}.vg-pick-ic{font-size:26px;line-height:1}
 .vg-pick-t b{display:block;font-size:15px}.vg-pick-t small{display:block;color:var(--mut);font-size:12.5px;margin-top:2px}
@@ -89,7 +102,7 @@ button,input,select{font-family:inherit;font-size:13px}
 .vg-ul{list-style:none;margin:0;padding:0}.vg-ul li{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line2);font-size:13px}
 .vg-ul li:last-child{border-bottom:0}.vg-ul li small{display:block;color:var(--mut);font-size:11.5px}.vg-ul .r{text-align:right;white-space:nowrap;font-size:12px}.vg-ul .r small{margin-top:2px}
 @media (max-width:1100px){.vg-go{grid-column:1/-1}.vg-row{grid-template-columns:repeat(2,minmax(0,1fr))}.vg-h{display:none}.vg-row > div[data-l]::before{content:attr(data-l);display:block;font-size:10px;font-weight:900;letter-spacing:.6px;text-transform:uppercase;color:var(--mut);margin-bottom:3px}.vg-ob{grid-column:1/-1}.vg-att3{grid-template-columns:minmax(0,1fr)}.vg-k4{grid-template-columns:repeat(2,minmax(0,1fr))}.vg-rule{margin-left:0}}
-@media (max-width:560px){.vg-row{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:560px){.vg-row{grid-template-columns:repeat(2,minmax(0,1fr))}.vg-row > div[data-l='Avanço físico']{grid-column:1/-1}.vg-sk{max-width:none}}
 .vg-jr2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;margin-bottom:14px}
 .vg-jr2 > .card{margin:0;min-width:0}
 .vg-jr2 .card-h{flex-wrap:wrap;row-gap:6px}.vg-jr2 .jr-leg{width:100%;order:9}.vg-jr2 .jr-leg button{font-size:11px;padding:3px 8px}
@@ -3624,7 +3637,7 @@ function renderVG(){
     <div class="card vg-card"><div class="vg-tbl">
       <div class="vg-row vg-h"><div>Obra</div><div>Avanço físico</div><div>Mão de obra</div><div>Equipamentos</div><div>Pendências</div><div>Próximo término</div><div></div></div>
       ${list.map(x => `<button type="button" class="vg-row" data-vg="obra" data-o="${esc(x.o)}" style="--c:${SEM[x.sem.k].c}" title="Abrir o detalhe de ${esc(x.label)}">
-        <div class="vg-ob">${vgDot(x.sem.k)}<div><b>${esc(x.label)}</b><small>${esc(x.sem.why)}</small></div></div>
+        <div class="vg-ob">${vgDot(x.sem.k)}<div class="vg-obn"><b>${esc(x.label)}</b><small>${esc(x.sem.why)}</small></div><span class="vg-go vg-go-m"><span>Ver obra</span><i aria-hidden="true">→</i></span></div>
         <div data-l="Avanço físico">${vgAvBar(x.m)}</div>
         <div data-l="Mão de obra">${vgEf(x.L, 'pessoas')}</div>
         <div data-l="Equipamentos">${vgEf(x.E, 'equipamentos')}</div>

@@ -1943,11 +1943,17 @@ function commitResumo(results){
 }
 const DISTINCT = {labor: ['nome', 'matricula', 'tipo', 'admissao'], equip: ['prefixo', 'classificacao', 'mobilizacao']};
 function sheetNameMatch(kind, n){ const h = normHeader(n); return kind === 'labor' ? (h === 'mo' || /^mo\d|maodeobra|efetivo|colaborador/.test(h)) : kind === 'manual' ? /resumo|totais/.test(h) : /equip/.test(h); }
+/** aba de atividades (importada pela aba Atividades, não pela importação de MO/Equipamento/Resumo) */
+function isAtivSheet(wb, n){
+  if (trkSheetMatch('ativ', n)) return true;
+  if (sheetNameMatch('labor', n) || sheetNameMatch('equip', n) || sheetNameMatch('manual', n)) return false;
+  const h = trkMapHeaders('ativ', sheetGrid(wb.Sheets[n])); return !!(h && h.map.nome != null && (h.map.qtd != null || h.map.fim != null || h.map.trecho != null));
+}
 function guessSheet(kind, wb){
   const byName = wb.SheetNames.find(n => sheetNameMatch(kind, n)); if (byName) return byName;
-  if (kind === 'manual') return wb.SheetNames.find(n => !/instru/i.test(n) && mapResumoHeaders(sheetGrid(wb.Sheets[n]))) || '';
+  if (kind === 'manual') return wb.SheetNames.find(n => !/instru/i.test(n) && !isAtivSheet(wb, n) && mapResumoHeaders(sheetGrid(wb.Sheets[n]))) || '';
   let best = '', bestHits = 0;
-  for (const n of wb.SheetNames) { if (/instru/i.test(n)) continue; const h = mapHeaders(kind, sheetGrid(wb.Sheets[n])); if (h && DISTINCT[kind].some(k => h.map[k] != null) && h.hits > bestHits) { best = n; bestHits = h.hits; } }
+  for (const n of wb.SheetNames) { if (/instru/i.test(n) || isAtivSheet(wb, n)) continue; const h = mapHeaders(kind, sheetGrid(wb.Sheets[n])); if (h && DISTINCT[kind].some(k => h.map[k] != null) && h.hits > bestHits) { best = n; bestHits = h.hits; } }
   return best;
 }
 function openImport(startKind, preWb, preName){
@@ -1969,6 +1975,7 @@ function openImport(startKind, preWb, preName){
   </div>
   <div data-gserr></div>
   <div data-step2 hidden style="margin-top:14px">
+    <div data-ativhint></div>
     <div class="form-grid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
       <div class="fld"><span>Semana para linhas sem semana (vale para todas as abas)</span>${weekInputHTML('wk', '')}</div>
       <label class="fld" style="flex-direction:row;align-items:center;gap:8px;text-transform:none;font-size:13px;color:var(--tx)"><input type="checkbox" data-force style="width:auto;min-height:0"> Aplicar esta semana a todas as linhas</label>
@@ -2014,7 +2021,11 @@ function openImport(startKind, preWb, preName){
       sel.value = guessSheet(k, wb);
     }
     // arquivo de uma aba só (CSV) sem nome reconhecível: usa a aba do app de onde o usuário abriu
-    if (wb.SheetNames.length === 1 && !$('[data-sheet="labor"]', el).value && !$('[data-sheet="equip"]', el).value) $(`[data-sheet="${startKind}"]`, el).value = wb.SheetNames[0];
+    const ativSh = wb.SheetNames.filter(n => isAtivSheet(wb, n));
+    if (wb.SheetNames.length === 1 && !ativSh.length && !$('[data-sheet="labor"]', el).value && !$('[data-sheet="equip"]', el).value) $(`[data-sheet="${startKind}"]`, el).value = wb.SheetNames[0];
+    const ah = $('[data-ativhint]', el);
+    ah.innerHTML = ativSh.length ? `<div class="alert info" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:10px"><span>A aba <b>${esc(ativSh.join(', '))}</b> é de <b>atividades</b> — ela não usa a coluna Semana e é importada separadamente.</span><span style="flex:1"></span><button class="btn sm primary" data-goativ>Importar atividades desta planilha →</button></div>` : '';
+    const ga = $('[data-goativ]', ah); if (ga) ga.onclick = () => { const w0 = st.wb, s0 = st.source; m.close(); openTrkImport(w0, s0); };
     $('[data-step2]', el).hidden = false; analyzeAll();
   }
   [...KS, 'manual'].forEach(k => $(`[data-sheet="${k}"]`, el).onchange = analyzeAll);

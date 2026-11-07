@@ -44,30 +44,6 @@ button,input,select{font-family:inherit;font-size:13px}
 .side-nav .badge{margin-left:auto;background:var(--or);color:#fff;font-style:normal;font-size:10px;font-weight:900;border-radius:999px;padding:1px 7px}
 .pn-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:14px}
 .pn-grid > .card{margin-bottom:14px;min-width:0}
-.vg-nav{position:sticky;top:var(--topH,0px);z-index:30;display:flex;gap:6px;align-items:center;background:rgba(243,244,246,.94);backdrop-filter:blur(6px);padding:8px 0;margin:0 0 10px;overflow-x:auto;scrollbar-width:none}
-.vg-nav::-webkit-scrollbar{display:none}
-.vg-nav button{flex:none;border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 14px;font:inherit;font-size:13px;font-weight:800;color:var(--tx);cursor:pointer;display:inline-flex;gap:6px;align-items:center}
-.vg-nav button.on{background:var(--bk);color:#fff;border-color:var(--bk)}
-.vg-nav .vg-pres-btn{background:var(--or-soft);border-color:#FBC98A;color:#9A3412}
-.vg-sec{scroll-margin-top:calc(var(--topH,0px) + 64px)}
-.vg-sum1{border-left:6px solid var(--c);display:flex;gap:14px;align-items:flex-start;background:#fff}
-.vg-sumtx{flex:1;font-size:15.5px;line-height:1.55;color:var(--tx)}
-.vg-chg .vg-cstats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:12px}
-.vg-cs{border:1px solid var(--line);border-radius:10px;padding:9px 12px;background:#FAFAFB}.vg-cs span{display:block;font-size:10.5px;font-weight:900;letter-spacing:.5px;text-transform:uppercase;color:var(--mut)}
-.vg-cs b{font-size:20px}.vg-cs b.up{color:#16A34A}.vg-cs b.dn{color:#DC2626}
-.vg-cgs{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-.vg-cgt{font-weight:900;font-size:13px;margin-bottom:4px;display:flex;gap:6px;align-items:center}.vg-cgt.err{color:#DC2626}.vg-cgt.ok{color:#16A34A}.vg-cgt.or{color:#C2410C}.vg-cgt.warn{color:#B45309}
-.vg-x{display:none !important}.vg-open .vg-x{display:flex !important}.vg-open tr.vg-x{display:table-row !important}
-.vg-morebtn{margin-top:8px}
-body.pres .side,body.pres .topbar,body.pres #syncBar,body.pres .vg-back,body.pres .vg-back-end,body.pres .vg-nav,body.pres #tab-vg .toolbar .acts{display:none !important}
-body.pres .app{grid-template-columns:minmax(0,1fr) !important}body.pres{padding-bottom:70px}
-#presBar{position:fixed;left:0;right:0;bottom:0;z-index:200;background:rgba(14,14,16,.94);color:#fff;box-shadow:0 -6px 20px rgba(0,0,0,.25)}
-#presBar .pb-prog{height:4px;background:#2A2A30}#presBar .pb-prog i{display:block;height:100%;background:var(--or);width:0;animation:pbp linear forwards}
-@keyframes pbp{to{width:100%}}
-#presBar .pb-row{display:flex;align-items:center;gap:10px;padding:10px 16px}#presBar b{font-size:16px}#presBar .pb-n{color:#A1A1AA;font-size:13px}
-#presBar button{background:#2A2A30;color:#fff;border:0;border-radius:8px;padding:8px 12px;font:inherit;font-weight:800;cursor:pointer}#presBar button:hover{background:#3F3F46}
-#presBar [data-pres=stop]{background:var(--or)}
-@media (max-width:640px){.vg-sum1{flex-direction:column}.vg-sumtx{font-size:14.5px}.vg-chg .vg-cstats{grid-template-columns:minmax(0,1fr)}.vg-cs{display:flex;justify-content:space-between;align-items:center}.vg-cs b{font-size:17px}.vg-eacv{height:230px !important}.vg-nav .vg-pres-btn{display:none}}
 .vg-back{display:inline-flex;align-items:center;gap:8px;background:var(--or);color:#fff;border:0;border-radius:10px;padding:9px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 4px 14px rgba(247,147,30,.35);font-family:inherit;transition:transform .15s,background .15s}
 .vg-back span{font-size:18px;line-height:1}.vg-back:hover{background:var(--or2);transform:translateX(-2px)}
 [data-vgt]{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.vg-on{font-size:22px;font-weight:900}
@@ -178,7 +154,13 @@ td select{border:1px solid var(--line);border-radius:7px;padding:4px 6px;font-si
 .sync .dot{width:9px;height:9px;border-radius:50%;background:#9CA3AF;flex:none}
 .sync.ok .dot{background:var(--ok)} .sync.chg{background:#FFF7ED} .sync.chg .dot{background:var(--or);box-shadow:0 0 0 4px rgba(247,147,30,.2)} .sync.err{background:#FEF2F2} .sync.err .dot{background:var(--err)}
 .sync.load .dot{animation:pulse 1s infinite}@keyframes pulse{50%{opacity:.3}}
-.sync .acts{margin-left:auto;display:flex;gap:6px}
+.sync .acts{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+.sync-t{white-space:nowrap}
+.side-sync{display:flex;align-items:center;gap:7px;font-size:11.5px;color:#A1A1AA;line-height:1.3}
+.side-sync .dot{width:8px;height:8px;border-radius:50%;background:#71717A;flex:none}
+.side-sync.ok .dot{background:var(--ok)}.side-sync.chg{color:#FDBA74}.side-sync.chg .dot{background:var(--or);box-shadow:0 0 0 3px rgba(247,147,30,.25)}.side-sync.err{color:#FCA5A5}.side-sync.err .dot{background:var(--err)}.side-sync.load .dot{animation:pulse 1s infinite}
+#btnSyncM{position:relative}#btnSyncM.has-new::after{content:'';position:absolute;top:4px;right:4px;width:9px;height:9px;border-radius:50%;background:var(--or);box-shadow:0 0 0 2px var(--bk)}
+@media (max-width:640px){.sync{padding:8px 12px}.sync .acts{margin-left:0;width:100%}.sync .acts .btn{flex:1}}
 .sync.err{padding-top:6px;padding-bottom:6px}
 .notice{background:var(--or-soft);color:#7C3E00;border-bottom:1px solid #FBD9B0;padding:7px 22px;font-size:12px;display:flex;gap:8px;align-items:center}
 .notice b{color:#5C2E00}
@@ -419,8 +401,6 @@ td.num{font-variant-numeric:tabular-nums;font-weight:700}
 .p-sec{font-size:12px;font-weight:900;margin:6px 0 4px;border-left:4px solid #F7931E;padding-left:6px}
 .p-note{font-size:9px;color:#555;margin:4px 0}
 /* relatório de atividades */
-.p-sumtx{font-size:11px;line-height:1.45;border-left:4px solid #F7931E;background:#FFFBF5;padding:6px 10px;margin:4px 0 8px}
-.p-chg{font-size:9.5px;line-height:1.5;border:1px solid #E5E7EB;border-radius:6px;padding:5px 9px}
 .pdot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:middle}
 .p-vg td{height:34px}
 .p-k4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:4px 0 8px}
@@ -470,6 +450,7 @@ td.num{font-variant-numeric:tabular-nums;font-weight:700}
   </nav>
   <div class="side-foot">
     <button class="side-btn" id="btnSync" style="border-color:#7C3E00">⟳ Sincronizar planilha</button>
+    <div class="side-sync" id="syncMini"></div>
     <div class="side-note" id="sideMini"></div>
   </div>
 </aside>
@@ -2644,7 +2625,17 @@ function printResumo(){
 /* ---------- Conexão com a planilha publicada (leitura) ---------- */
 const Sync = {
   wb: null, at: null, busy: false, lastWb: null, lastSrc: '', lastAt: null,
-  bar(cls, html, acts = ''){ const b = $('#syncBar'); b.className = 'sync ' + cls; b.innerHTML = `<span class="dot"></span><span>${html}</span><span class="acts">${acts}</span>`; },
+  /* faixa do topo só aparece quando há algo a fazer (novidades ou erro), e só com os botões; o estado fica no rodapé do menu */
+  bar(cls, html, acts = ''){
+    const b = $('#syncBar'); const plain = String(html).replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+    const mini = $('#syncMini'), mb = $('#btnSyncM');
+    const txt = cls === 'load' ? 'Lendo a planilha…' : cls === 'chg' ? 'Novidades na planilha' : cls === 'err' ? 'Planilha não conectada' : cls === 'ok' ? `Planilha em dia${this.at ? ' · lida às ' + this.at.toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'}) : ''}` : 'Leitura automática desativada';
+    if (mini) { mini.className = 'side-sync ' + cls; mini.innerHTML = `<span class="dot"></span>${esc(txt)}`; mini.title = plain; }
+    if (mb) { mb.classList.toggle('has-new', cls === 'chg' || cls === 'err'); mb.title = plain || 'Sincronizar planilha'; }
+    if (cls !== 'chg' && cls !== 'err') { b.hidden = true; b.innerHTML = ''; return; }
+    b.hidden = false; b.className = 'sync ' + cls;
+    b.innerHTML = `<span class="dot"></span><span class="sync-t" title="${esc(plain)}">${cls === 'chg' ? '<b>Novidades na planilha</b>' : '<b>Planilha não conectada</b> · <a href="#" data-sync="avisos" style="color:inherit">detalhes</a>'}</span><span class="acts">${acts}</span>`;
+  },
   summarize(wb){
     const out = {};
     { const sh = guessSheet('manual', wb); const g = sh && sheetGrid(wb.Sheets[sh]); const h = g && mapResumoHeaders(g);
@@ -2807,7 +2798,7 @@ function obraModel(o, w, hist){
       atrasoPrev: prev && prev !== 'Concluída' && alvo && prev > alvo ? daysBetween(alvo, prev) : 0, alvo,
       reprog: a.revisado && a.fim && a.revisado > a.fim ? daysBetween(a.fim, a.revisado) : 0,
       reprogIni: a.inicio_rev && a.inicio && a.inicio_rev > a.inicio ? daysBetween(a.inicio, a.inicio_rev) : 0,
-      h: h || [], rev: revHist(a, h), semMotivo: iniSemMotivo(a) && r.pct < 100,
+      rev: revHist(a, h), semMotivo: iniSemMotivo(a) && r.pct < 100,
       w: usePeso ? (Number(a.peso) > 0 ? Number(a.peso) : pesoMed) : 1, lastAv: r.rec};
   });
   const W = rows.reduce((s, x) => s + x.w, 0);
@@ -3534,10 +3525,10 @@ function renderVG(){
   const sec = $('#tab-vg');
   if (!sec.dataset.built) {
     sec.dataset.built = 1;
-    sec.innerHTML = `<div class="toolbar"><div><h2 data-vgt>Visão gerencial</h2><div class="sub" data-vgs></div></div><div class="acts"><label class="vg-wk">Semana de referência<select data-vgw></select></label><button class="btn" data-vg="pres" title="Tela cheia passando pelas obras">▶ Apresentação</button><button class="btn dark" data-vg="pdf">⎙ PDF</button></div></div><div data-vgb></div>`;
+    sec.innerHTML = `<div class="toolbar"><div><h2 data-vgt>Visão gerencial</h2><div class="sub" data-vgs></div></div><div class="acts"><label class="vg-wk">Semana de referência<select data-vgw></select></label><button class="btn dark" data-vg="pdf">⎙ PDF</button></div></div><div data-vgb></div>`;
   }
   vgPickers(sec);
-  ['at-h-labor', 'at-h-equip', 'vg-h-labor', 'vg-h-equip', 'vg-hist-labor', 'vg-hist-equip', 'vg-ea'].forEach(killChart);
+  ['at-h-labor', 'at-h-equip', 'vg-h-labor', 'vg-h-equip', 'vg-hist-labor', 'vg-hist-equip'].forEach(killChart);
   for (const id of ['vg-jr-labor', 'vg-jr-equip']) { if (journeys[id]) cancelAnimationFrame(journeys[id].raf); killChart(id); }
   if (VG.obra && !vgObras().includes(VG.obra)) VG.obra = '';
   if (VG.obra) return renderVGObra(sec);
@@ -3590,204 +3581,41 @@ function vgRestTable(d){
   const dt = (p, r) => r && r !== p ? `<b>${fmtBR(r)}</b> <small class="chip or" style="padding:0 5px">rev.</small>` : (fmtBR(p) || '—');
   return `<div class="card"><div class="card-h"><h3>Atividades restantes</h3><span class="hint">${rows.length} de ${d.m.n} serviço(s)</span><span class="sp"></span><button class="btn sm" data-vg="ativ">Abrir na aba Atividades →</button></div>
     ${rows.length ? `<div class="tbl-wrap"><table><thead><tr><th>Trecho</th><th>Serviço</th><th>Avanço (real × plan.)</th><th>Início</th><th>Término</th><th>Status</th><th>Impedimentos</th></tr></thead><tbody>
-    ${rows.map((x, i) => `<tr${i >= 5 ? ' class="vg-x"' : ''}><td class="l">${esc(x.a.trecho || '')}</td><td class="l" style="white-space:normal;min-width:220px"><b>${esc(x.a.nome)}</b></td><td style="min-width:140px">${progBar(x.real, x.plan)}<small class="muted">${pctTxt(x.real, 0)} · plan. ${pctTxt(x.plan, 0)}</small></td>
+    ${rows.map(x => `<tr><td class="l">${esc(x.a.trecho || '')}</td><td class="l" style="white-space:normal;min-width:220px"><b>${esc(x.a.nome)}</b></td><td style="min-width:140px">${progBar(x.real, x.plan)}<small class="muted">${pctTxt(x.real, 0)} · plan. ${pctTxt(x.plan, 0)}</small></td>
       <td>${dt(x.a.inicio, x.a.inicio_rev)}</td><td>${dt(x.a.fim, x.a.revisado)}</td><td>${stChip(x.status, x.diasAtraso)}</td><td class="l" style="white-space:normal">${x.a.impedimentos ? `<span class="chip warn">${esc(x.a.impedimentos)}</span>` : ''}</td></tr>`).join('')}
-    </tbody></table></div>${rows.length > 5 ? `<button type="button" class="btn sm vg-morebtn" data-vg="more" data-n="${rows.length}">Ver todas (${rows.length})</button>` : ''}` : '<div class="muted" style="padding:6px 2px">Nenhuma atividade restante.</div>'}</div>`;
+    </tbody></table></div>` : '<div class="muted" style="padding:6px 2px">Nenhuma atividade restante.</div>'}</div>`;
 }
-/* ---------- Visão gerencial da obra: resumo, mudanças da semana, efetivo × avanço ---------- */
-const vgPct = (a, b) => a ? Math.round((b - a) / a * 1000) / 10 : null;
-const vgPP = v => `${v >= 0 ? '+' : ''}${v.toLocaleString('pt-BR', {maximumFractionDigits: 1})} p.p.`;
-/** 1) resumo da obra em poucas frases (texto pronto para copiar) */
-function vgSummary(d, L8){
-  const m = d.m, S = [];
-  const st = {r: 'em situação crítica', y: 'em atenção', g: 'dentro do planejado', n: 'sem atividades cadastradas'}[d.sem.k];
-  const lateT = m.rows.filter(x => x.status === 'Término atrasado'); const maxD = lateT.reduce((s, x) => Math.max(s, x.diasAtraso || 0), 0);
-  const p1 = [];
-  if (d.tv) p1.push(`${d.tv} serviço(s) com término vencido${maxD ? ` (o mais antigo há ${maxD} dia(s))` : ''}`);
-  if (d.ia) p1.push(`${d.ia} com início atrasado`);
-  if (m.n) p1.push(`avanço físico de ${pctTxt(m.real)} contra ${pctTxt(m.plan)} planejado (${vgPP(m.real - m.plan)})`);
-  S.push(`${d.label} está ${st}${p1.length ? ': ' + p1.join('; ') : ''}.`);
-  const iF = L8.vals.findIndex(v => v != null); const iL = L8.vals.length - 1 - [...L8.vals].reverse().findIndex(v => v != null);
-  if (iF >= 0 && L8.vals[iL] != null) {
-    const a = L8.vals[iF], b = L8.vals[iL];
-    if (iF !== iL && a !== b) { const pc = vgPct(a, b); S.push(`O efetivo de mão de obra ${b < a ? 'caiu' : 'subiu'} de ${fmtN(a)} para ${fmtN(b)} pessoas${pc != null ? ` (${pc > 0 ? '+' : ''}${pc.toLocaleString('pt-BR')}%)` : ''} desde a ${weekShort(L8.weeks[iF])}${d.E.cur != null ? `; há ${fmtN(d.E.cur)} equipamento(s) na obra` : ''}.`); }
-    else S.push(`Efetivo atual: ${fmtN(b)} pessoas${d.E.cur != null ? ` e ${fmtN(d.E.cur)} equipamento(s)` : ''}.`);
-  }
-  if (d.imp) {
-    const cnt = {}; m.rows.filter(x => x.status !== 'Concluída' && String(x.a.impedimentos || '').trim()).forEach(x => { const k = String(x.a.impedimentos).trim(); cnt[k] = (cnt[k] || 0) + 1; });
-    const top = Object.entries(cnt).sort((a, b) => b[1] - a[1])[0];
-    S.push(`${d.imp} serviço(s) travado(s) por impedimento${top ? ` (principal: ${top[0]}${Object.keys(cnt).length > 1 ? `, ${top[1]} serviço(s)` : ''})` : ''}.`);
-  }
-  if (d.prox) S.push(`Próximo término: ${d.prox.a.nome} em ${fmtBR(d.prox.alvo)} (${daysBetween(d.ref, d.prox.alvo)} dia(s)).`);
-  return S.join(' ');
-}
-/** 2) o que mudou em relação à semana anterior */
-function vgChanges(d){
-  const w = VG.week, wp = weekPlus(w, -1); const m0 = obraModel(d.o, wp); const prev = new Map(m0.rows.map(x => [x.a.id, x]));
-  const out = {wp, dAv: d.m.n ? d.m.real - m0.real : null, atr: [], conc: [], ini: [], avc: [], rep: []};
-  for (const x of d.m.rows) {
-    const y = prev.get(x.a.id); if (!y) continue;
-    if ((isAtr(x) && !isAtr(y)) || (x.status === 'Término atrasado' && y.status !== 'Término atrasado')) out.atr.push(x);
-    if (x.status === 'Concluída' && y.status !== 'Concluída') out.conc.push(x);
-    else if (y.real === 0 && x.real > 0) out.ini.push(x);
-    if (x.real - y.real > 0.05 && x.status !== 'Concluída') out.avc.push({x, dv: x.real - y.real});
-    const recs = (x.h || []).filter(r => r.inicio_rev || r.revisado);
-    const cur = recs.find(r => r.semana === w);
-    if (cur) { const before = recs.filter(r => r.semana < w).pop(); const b0 = before ? [before.inicio_rev || '', before.revisado || ''] : [x.a.inicio || '', x.a.fim || ''];
-      const nv = [cur.inicio_rev || '', cur.revisado || '']; if ((nv[0] && nv[0] !== b0[0]) || (nv[1] && nv[1] !== b0[1])) out.rep.push({x, from: before ? (before.revisado || before.inicio_rev) : (x.a.fim || x.a.inicio), to: cur.revisado || cur.inicio_rev}); }
-  }
-  out.avc.sort((a, b) => b.dv - a.dv);
-  return out;
-}
-function vgChangesHTML(d, c){
-  const st = (l, v, cls) => `<div class="vg-cs"><span>${l}</span><b class="${cls || ''}">${v}</b></div>`;
-  const efD = (e, u) => e.d == null ? '—' : `${e.d > 0 ? '+' : ''}${fmtN(e.d)} ${u}`;
-  const li = (x, r) => `<li><div><b>${esc(x.a.nome)}</b><small>${esc(x.a.trecho || '')}</small></div><div class="r">${r}</div></li>`;
-  const grp = (t, arr, f, cls) => arr.length ? `<div class="vg-cg"><div class="vg-cgt ${cls}">${t} <span class="chip ${cls}">${arr.length}</span></div>${vgMoreList(arr.map(f), 4)}</div>` : '';
-  const body = grp('Passaram a atrasar', c.atr, x => li(x, `<span class="chip err">${esc(x.status)}</span>`), 'err')
-    + grp('Concluídos', c.conc, x => li(x, '<span class="chip ok">100%</span>'), 'ok')
-    + grp('Iniciados', c.ini, x => li(x, `${pctTxt(x.real, 0)}`), 'or')
-    + grp('Reprogramados', c.rep, r => li(r.x, `${fmtBR(r.from) || '—'} → <b>${fmtBR(r.to)}</b>`), 'warn')
-    + grp('Mais avançaram', c.avc.slice(0, 8), r => li(r.x, `<b style="color:#16A34A">${vgPP(r.dv)}</b><small>${pctTxt(r.x.real, 0)} feito</small>`), '');
-  return `<div class="card vg-chg"><div class="card-h"><h3>O que mudou desde a semana passada</h3><span class="hint">${esc(weekShort(c.wp))} → ${esc(weekShort(VG.week))}</span></div>
-    <div class="vg-cstats">${st('Avanço físico na semana', c.dAv == null ? '—' : vgPP(c.dAv), c.dAv > 0 ? 'up' : c.dAv < 0 ? 'dn' : '')}${st('Mão de obra', efD(d.L, 'pessoas'), d.L.d > 0 ? 'up' : d.L.d < 0 ? 'dn' : '')}${st('Equipamentos', efD(d.E, 'equip.'), d.E.d > 0 ? 'up' : d.E.d < 0 ? 'dn' : '')}</div>
-    ${body ? `<div class="vg-cgs">${body}</div>` : '<div class="muted" style="padding:6px 2px">Nenhuma mudança de situação nas atividades nesta semana.</div>'}</div>`;
-}
-/** lista com só os N primeiros visíveis e botão “ver todos” (sem redesenhar a tela) */
-function vgMoreList(items, n = 5){
-  return `<ul class="vg-ul">${items.map((h, i) => i >= n ? h.replace('<li', '<li class="vg-x"') : h).join('')}</ul>${items.length > n ? `<button type="button" class="btn sm vg-morebtn" data-vg="more" data-n="${items.length}">Ver todos (${items.length})</button>` : ''}`;
-}
-/** 4) efetivo × avanço, semana a semana */
-function vgEfAv(d, wks){
-  const L = vgEfetivo('labor', d.o, VG.week, wks.length);
-  const MS = d.m.n ? wks.map(wk => obraModel(d.o, wk)) : [];
-  const real = MS.map(x => +x.real.toFixed(1)), plan = MS.map(x => +x.plan.toFixed(1));
-  const iF = L.vals.findIndex(v => v != null), iL = L.vals.length - 1 - [...L.vals].reverse().findIndex(v => v != null);
-  let insight = '';
-  if (MS.length && iF >= 0 && iL > iF) {
-    const ef = L.vals[iL] - L.vals[iF], g0 = MS[iF].real - MS[iF].plan, g1 = MS[iL].real - MS[iL].plan;
-    if (ef < 0 && g1 < g0 - 1) insight = `<div class="alert err" style="font-size:12.5px;margin-top:8px">⚠ <b>Efetivo caindo enquanto o atraso aumenta:</b> ${fmtN(L.vals[iF])} → ${fmtN(L.vals[iL])} pessoas e desvio de ${vgPP(g0)} para ${vgPP(g1)} desde a ${esc(weekShort(wks[iF]))}.</div>`;
-    else if (ef > 0 && g1 < g0 - 1) insight = `<div class="alert warn" style="font-size:12.5px;margin-top:8px">O efetivo aumentou (${fmtN(L.vals[iF])} → ${fmtN(L.vals[iL])}), mas o desvio de avanço ainda piorou (${vgPP(g0)} → ${vgPP(g1)}). Vale verificar a produtividade.</div>`;
-    else if (g1 > g0 + 1) insight = `<div class="alert info" style="font-size:12.5px;margin-top:8px">O desvio de avanço melhorou de ${vgPP(g0)} para ${vgPP(g1)} desde a ${esc(weekShort(wks[iF]))}.</div>`;
-  }
-  return {L, real, plan, has: MS.length > 0, insight};
-}
-function vgEfAvConfig(wks, e, narrow, print){
-  const ds = [{type: 'bar', label: 'Efetivo MO (pessoas)', data: e.L.vals, backgroundColor: 'rgba(51,65,85,.25)', hoverBackgroundColor: 'rgba(51,65,85,.4)', borderRadius: 6, yAxisID: 'y', order: 3, maxBarThickness: 38}];
-  if (e.has) ds.push({type: 'line', label: 'Avanço realizado', data: e.real, borderColor: '#F7931E', backgroundColor: '#F7931E', borderWidth: 3, pointRadius: narrow ? 2 : 3, pointBackgroundColor: '#fff', yAxisID: 'y2', tension: .25, order: 1},
-    {type: 'line', label: 'Avanço planejado', data: e.plan, borderColor: '#94A3B8', backgroundColor: '#94A3B8', borderDash: [6, 4], borderWidth: 2, pointRadius: 0, yAxisID: 'y2', tension: .25, order: 2});
-  const fs = narrow ? 9.5 : print ? 13 : 11;
-  return {type: 'bar', data: {labels: wks.map(w => narrow ? weekShort(w).split('/')[0] : weekShort(w)), datasets: ds},
-    options: {responsive: !print, maintainAspectRatio: false, animation: print || reduceMotion ? false : {duration: 700}, devicePixelRatio: print ? 2 : undefined,
-      interaction: {mode: 'index', intersect: false}, layout: {padding: {top: 6, right: 4}},
-      scales: {x: {grid: {display: false}, ticks: {maxRotation: 0, autoSkip: true, font: {size: fs, weight: 'bold'}}},
-        y: {beginAtZero: true, grace: '10%', border: {display: false}, grid: {color: '#F0F1F4'}, ticks: {precision: 0, color: '#64748B', maxTicksLimit: 5, font: {size: fs}}, title: {display: !narrow, text: 'pessoas', color: '#64748B', font: {size: 11, weight: 'bold'}}},
-        y2: {display: e.has, position: 'right', min: 0, max: 100, border: {display: false}, grid: {display: false}, ticks: {stepSize: 25, color: '#E86F00', font: {size: fs, weight: 'bold'}, callback: v => v + '%'}}},
-      plugins: {legend: {position: 'bottom', labels: {usePointStyle: true, boxHeight: 7, font: {weight: 'bold', size: narrow ? 10.5 : 12}}},
-        tooltip: {callbacks: {title: it => weekLabel(wks[it[0].dataIndex], true), label: it => ` ${it.dataset.label}: ${it.raw == null ? '—' : it.dataset.yAxisID === 'y2' ? pctTxt(it.raw) : fmtN(it.raw)}`}}}}};
-}
-
-/* ---------- 6) modo apresentação: tela cheia passando pelas obras ---------- */
-const PRES = {on: false, i: 0, slides: [], t: 0, raf: 0, paused: false, dur: 30, fs: false};
-function presStart(){
-  const list = vgObras().map(o => vgObraData(o, VG.week)).sort((a, b) => SEM[a.sem.k].o - SEM[b.sem.k].o || (a.m.real - a.m.plan) - (b.m.real - b.m.plan)).map(x => x.o);
-  if (!list.length) return toast('Nenhuma obra para apresentar.', 'err');
-  Object.assign(PRES, {on: true, i: 0, slides: ['', ...list], paused: false});
-  document.body.classList.add('pres');
-  let bar = $('#presBar'); if (!bar) { bar = document.createElement('div'); bar.id = 'presBar'; document.body.appendChild(bar); }
-  const el = document.documentElement; if (el.requestFullscreen && !document.fullscreenElement) el.requestFullscreen().then(() => PRES.fs = true).catch(() => {});
-  presShow();
-}
-function presStop(){
-  if (!PRES.on) return; PRES.on = false; clearTimeout(PRES.t); cancelAnimationFrame(PRES.raf);
-  document.body.classList.remove('pres'); const bar = $('#presBar'); if (bar) bar.remove();
-  if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(() => {});
-  refreshAll();
-}
-function presShow(){
-  clearTimeout(PRES.t); cancelAnimationFrame(PRES.raf);
-  const o = PRES.slides[PRES.i]; VG.obra = o; if (UI.tab !== 'vg') switchTab('vg'); else refreshAll(); window.scrollTo(0, 0);
-  const n = PRES.slides.length; const lbl = o ? obraLabel(o) : 'Todas as obras';
-  $('#presBar').innerHTML = `<div class="pb-prog"><i style="animation-duration:${PRES.dur}s;animation-play-state:${PRES.paused ? 'paused' : 'running'}"></i></div>
-    <div class="pb-row"><b>${esc(lbl)}</b><span class="pb-n">${PRES.i + 1} / ${n}</span><span style="flex:1"></span>
-    <button data-pres="prev" title="Anterior (←)">◀</button><button data-pres="pause" title="Pausar (espaço)">${PRES.paused ? '▶' : '❚❚'}</button><button data-pres="next" title="Próxima (→)">▶▶</button>
-    <button data-pres="dur" title="Tempo por tela">${PRES.dur}s</button><button data-pres="stop" title="Sair (Esc)">✕ Sair</button></div>`;
-  if (!PRES.paused) presAuto();
-}
-function presAuto(){
-  const t0 = performance.now(), D = PRES.dur * 1000, hold = Math.min(4000, D * .15);
-  const step = now => { if (!PRES.on || PRES.paused) return; const el = now - t0; const max = document.documentElement.scrollHeight - innerHeight;
-    if (max > 0 && el > hold) window.scrollTo(0, Math.min(1, (el - hold) / Math.max(1, D - 2 * hold)) * max);
-    if (el < D) PRES.raf = requestAnimationFrame(step); };
-  PRES.raf = requestAnimationFrame(step);
-  PRES.t = setTimeout(() => presGo(1), D);
-}
-function presGo(dx){ if (!PRES.on) return; PRES.i = (PRES.i + dx + PRES.slides.length) % PRES.slides.length; presShow(); }
-document.addEventListener('click', e => {
-  const b = e.target.closest('[data-pres]'); if (!b) return; const a = b.dataset.pres;
-  if (a === 'prev') presGo(-1); else if (a === 'next') presGo(1); else if (a === 'stop') presStop();
-  else if (a === 'pause') { PRES.paused = !PRES.paused; presShow(); }
-  else if (a === 'dur') { PRES.dur = PRES.dur === 30 ? 60 : PRES.dur === 60 ? 15 : 30; presShow(); }
-});
-document.addEventListener('keydown', e => { if (!PRES.on) return;
-  if (e.key === 'Escape') presStop(); else if (e.key === 'ArrowRight') presGo(1); else if (e.key === 'ArrowLeft') presGo(-1); else if (e.key === ' ') { e.preventDefault(); PRES.paused = !PRES.paused; presShow(); } });
-document.addEventListener('fullscreenchange', () => { if (PRES.on && PRES.fs && !document.fullscreenElement) { PRES.fs = false; presStop(); } });
-
 function renderVGObra(sec){
   const w = VG.week, o = VG.obra; const d = vgObraData(o, w); VG._obra = d;
   const A = vgAttention(d); const U = vgUpcoming(d); const H3 = ['labor', 'equip'].map(k => histo3Data(k, o, w));
-  const VGW = 8; const wks = []; for (let i = VGW - 1; i >= 0; i--) wks.push(weekPlus(w, -i));
-  const L8 = vgEfetivo('labor', o, w, VGW); const sum = vgSummary(d, L8); const chg = vgChanges(d); const EA = vgEfAv(d, wks);
   $('[data-vgt]', sec).innerHTML = `<button class="vg-back" data-vg="back"><span aria-hidden="true">←</span> Todas as obras</button><span class="vg-on">${esc(d.label)}</span>`;
   $('[data-vgs]', sec).innerHTML = `${vgDot(d.sem.k)} <b style="color:${SEM[d.sem.k].c}">${SEM[d.sem.k].l}</b> — ${esc(d.sem.why)} · fechamento de ${esc(weekLabel(w, true))}`;
-  const box = (t, n, items, empty, cls) => `<div class="card vg-att ${cls}"><div class="card-h"><h3>${t}</h3><span class="chip ${n ? cls : ''}">${n}</span></div>${n ? vgMoreList(items) : `<div class="muted" style="padding:6px 2px">${empty}</div>`}</div>`;
+  const box = (t, n, items, empty, cls) => `<div class="card vg-att ${cls}"><div class="card-h"><h3>${t}</h3><span class="chip ${n ? cls : ''}">${n}</span></div>${n ? `<ul class="vg-ul">${items}</ul>` : `<div class="muted" style="padding:6px 2px">${empty}</div>`}</div>`;
   const dAlvo = x => { const n = daysBetween(d.ref, x.alvo); return n < 0 ? `<span class="chip err">vencido há ${-n} d</span>` : n === 0 ? '<span class="chip err">vence hoje</span>' : `<span class="chip warn">em ${n} d</span>`; };
+  const VGW = 8; const wks = []; for (let i = VGW - 1; i >= 0; i--) wks.push(weekPlus(w, -i));
   const kHtml = k => `<div class="card journey" data-vgj="${k}"></div>`;
-  const nav = [['vg-s-res', 'Resumo'], ['vg-s-ef', 'Efetivo'], ['vg-s-at', 'Atividades'], ['vg-s-al', `Atenção${A.term.length + A.ini.length + A.imp.length ? ` <span class="chip err">${A.term.length + A.ini.length + A.imp.length}</span>` : ''}`]];
-  const upRows = U.map((u, i) => `<tr${i >= 5 ? ' class="vg-x"' : ''}><td><b>${fmtBR(u.d)}</b></td><td><span class="chip ${u.t === 'Começa' ? 'or' : ''}">${u.t}</span></td><td class="l" style="white-space:normal"><b>${esc(u.x.a.nome)}</b></td><td class="l">${esc(u.x.a.trecho || '')}</td><td>${pctTxt(u.x.real, 0)}</td><td class="l">${u.x.a.impedimentos ? `<span class="chip warn">${esc(u.x.a.impedimentos)}</span>` : ''}</td></tr>`).join('');
   $('[data-vgb]', sec).innerHTML = `
-    <nav class="vg-nav">${nav.map(([id, l], i) => `<button type="button" data-vg="go" data-id="${id}" class="${i ? '' : 'on'}">${l}</button>`).join('')}</nav>
-    <section id="vg-s-res" class="vg-sec">
-      <div class="card vg-sum1" style="--c:${SEM[d.sem.k].c}"><div class="vg-sumtx">${esc(sum)}</div><button type="button" class="btn sm" data-vg="copy" title="Copiar o texto para WhatsApp ou e-mail">⧉ Copiar texto</button></div>
-      ${vgChangesHTML(d, chg)}
-    </section>
-    <section id="vg-s-ef" class="vg-sec">
-      <h3 class="vg-h3">Efetivo</h3>
-      <div class="vg-jr2">${kHtml('labor')}${kHtml('equip')}</div>
-      <div class="card"><div class="card-h"><h3>Efetivo × avanço físico</h3><span class="hint">semana a semana · últimas ${VGW} semanas</span></div>
-        <div style="position:relative;height:260px" class="vg-eacv"><canvas id="vgEA"></canvas></div>${EA.has ? '' : '<div class="muted" style="font-size:12px;margin-top:6px">Sem atividades cadastradas: só o efetivo é mostrado.</div>'}${EA.insight}</div>
-    </section>
-    <section id="vg-s-at" class="vg-sec">
-      <h3 class="vg-h3">Atividades</h3>
-      <div class="vg-k4">
-        <div class="kpi dark" style="--c:#F7931E"><div class="l">Avanço físico</div>${vgAvBar(d.m)}</div>
-        <div class="kpi" style="--c:#DC2626"><div class="l">Atrasadas</div><div class="v">${fmtN(d.atr)}</div><div class="s">${d.tv} no término · ${d.ia} no início</div></div>
-        <div class="kpi" style="--c:#D97706"><div class="l">Com impedimento</div><div class="v">${fmtN(d.imp)}</div><div class="s">de ${d.rest} serviço(s) restante(s)</div></div>
-        <div class="kpi" style="--c:#334155"><div class="l">Efetivo da semana</div><div class="vg-k-ef"><div><b>${d.L.cur == null ? '—' : fmtN(d.L.cur)}</b> pessoas ${vgDelta(d.L.d)}</div><div><b>${d.E.cur == null ? '—' : fmtN(d.E.cur)}</b> equip. ${vgDelta(d.E.d)}</div></div></div>
-      </div>
-      <div class="card"><div class="card-h"><h3>Próximas 3 semanas</h3><span class="hint">serviços que começam ou terminam até ${fmtBR(ymdAdd(d.ref, 21))}</span></div>
-        ${U.length ? `<div class="tbl-wrap"><table><thead><tr><th>Data</th><th>Evento</th><th>Serviço</th><th>Trecho</th><th>Avanço</th><th>Impedimento</th></tr></thead><tbody>${upRows}</tbody></table></div>${U.length > 5 ? `<button type="button" class="btn sm vg-morebtn" data-vg="more" data-n="${U.length}">Ver todos (${U.length})</button>` : ''}` : '<div class="muted" style="padding:6px 2px">Nenhum serviço começa ou termina nas próximas 3 semanas.</div>'}</div>
-      ${vgRestTable(d)}
-    </section>
-    <section id="vg-s-al" class="vg-sec">
-      <h3 class="vg-h3">Precisa de atenção</h3>
-      <div class="vg-att3">
-        ${box('Término vencido ou nos próximos 7 dias', A.term.length, A.term.map(x => vgItem(x, `${fmtBR(x.alvo)}<br>${dAlvo(x)}<small>${pctTxt(x.real, 0)} feito</small>`)), 'Nenhum término vencido ou vencendo.', 'err')}
-        ${box('Início atrasado', A.ini.length, A.ini.map(x => vgItem(x, `${fmtBR(x.a.inicio_rev || x.a.inicio)}<br><span class="chip err">${x.diasAtraso} d</span>`)), 'Nenhum início atrasado.', 'err')}
-        ${box('Impedimentos', A.imp.length, A.imp.map(x => vgItem(x, `<span class="chip warn">${esc(x.a.impedimentos)}</span>`)), 'Nenhum impedimento registrado.', 'warn')}
-      </div>
-    </section>
+    <div class="vg-jr2">${kHtml('labor')}${kHtml('equip')}</div>
+    <h3 class="vg-h3" style="margin-top:6px">Atividades</h3>
+    <div class="vg-k4">
+      <div class="kpi dark" style="--c:#F7931E"><div class="l">Avanço físico</div>${vgAvBar(d.m)}</div>
+      <div class="kpi" style="--c:#DC2626"><div class="l">Atrasadas</div><div class="v">${fmtN(d.atr)}</div><div class="s">${d.tv} no término · ${d.ia} no início</div></div>
+      <div class="kpi" style="--c:#D97706"><div class="l">Com impedimento</div><div class="v">${fmtN(d.imp)}</div><div class="s">de ${d.rest} serviço(s) restante(s)</div></div>
+      <div class="kpi" style="--c:#334155"><div class="l">Efetivo da semana</div><div class="vg-k-ef"><div><b>${d.L.cur == null ? '—' : fmtN(d.L.cur)}</b> pessoas ${vgDelta(d.L.d)}</div><div><b>${d.E.cur == null ? '—' : fmtN(d.E.cur)}</b> equip. ${vgDelta(d.E.d)}</div></div></div>
+    </div>
+    <div class="card"><div class="card-h"><h3>Próximas 3 semanas</h3><span class="hint">serviços que começam ou terminam até ${fmtBR(ymdAdd(d.ref, 21))}</span></div>
+      ${U.length ? `<div class="tbl-wrap"><table><thead><tr><th>Data</th><th>Evento</th><th>Serviço</th><th>Trecho</th><th>Avanço</th><th>Impedimento</th></tr></thead><tbody>${U.map(u => `<tr><td><b>${fmtBR(u.d)}</b></td><td><span class="chip ${u.t === 'Começa' ? 'or' : ''}">${u.t}</span></td><td class="l" style="white-space:normal"><b>${esc(u.x.a.nome)}</b></td><td class="l">${esc(u.x.a.trecho || '')}</td><td>${pctTxt(u.x.real, 0)}</td><td class="l">${u.x.a.impedimentos ? `<span class="chip warn">${esc(u.x.a.impedimentos)}</span>` : ''}</td></tr>`).join('')}</tbody></table></div>` : '<div class="muted" style="padding:6px 2px">Nenhum serviço começa ou termina nas próximas 3 semanas.</div>'}</div>
+    ${vgRestTable(d)}
+    <h3 class="vg-h3">Precisa de atenção</h3>
+    <div class="vg-att3">
+      ${box('Término vencido ou nos próximos 7 dias', A.term.length, A.term.slice(0, 10).map(x => vgItem(x, `${fmtBR(x.alvo)}<br>${dAlvo(x)}<small>${pctTxt(x.real, 0)} feito</small>`)).join('') + (A.term.length > 10 ? `<li class="muted">+${A.term.length - 10} outro(s)</li>` : ''), 'Nenhum término vencido ou vencendo.', 'err')}
+      ${box('Início atrasado', A.ini.length, A.ini.slice(0, 10).map(x => vgItem(x, `${fmtBR(x.a.inicio_rev || x.a.inicio)}<br><span class="chip err">${x.diasAtraso} d</span>`)).join('') + (A.ini.length > 10 ? `<li class="muted">+${A.ini.length - 10} outro(s)</li>` : ''), 'Nenhum início atrasado.', 'err')}
+      ${box('Impedimentos', A.imp.length, A.imp.slice(0, 10).map(x => vgItem(x, `<span class="chip warn">${esc(x.a.impedimentos)}</span>`)).join('') + (A.imp.length > 10 ? `<li class="muted">+${A.imp.length - 10} outro(s)</li>` : ''), 'Nenhum impedimento registrado.', 'warn')}
+    </div>
+
     <div class="vg-back-end"><button class="vg-back" data-vg="back"><span aria-hidden="true">←</span> Voltar para todas as obras</button></div>`;
   for (const k of ['labor', 'equip']) vgKindCharts(k, o, wks);
-  const cv = $('#vgEA'); if (cv) { killChart('vg-ea'); charts['vg-ea'] = new Chart(cv, vgEfAvConfig(wks, EA, (cv.parentElement.clientWidth || 800) < 560, false)); }
-  VG._obra.H3 = H3; VG._obra.A = A; VG._obra.U = U; VG._obra.sum = sum; VG._obra.chg = chg; VG._obra.EA = EA; VG._obra.wks = wks;
-  vgNavSpy();
-}
-function vgNavSpy(){
-  const top = $('.topbar'); document.documentElement.style.setProperty('--topH', (top && getComputedStyle(top).position === 'sticky' ? top.offsetHeight : 0) + 'px');
-  if (VG._io) VG._io.disconnect(); if (!('IntersectionObserver' in window)) return;
-  VG._io = new IntersectionObserver(es => { for (const e of es) if (e.isIntersecting) $$('.vg-nav [data-vg=go]').forEach(b => b.classList.toggle('on', b.dataset.id === e.target.id)); }, {rootMargin: '-35% 0px -60% 0px'});
-  $$('.vg-sec').forEach(x => VG._io.observe(x));
+  VG._obra.H3 = H3; VG._obra.A = A; VG._obra.U = U;
 }
 document.addEventListener('click', e => { if (e.target.closest('[data-vgo]')) { VG.obra = TK.obra; VG.week = TK.week; switchTab('vg'); } });
 document.addEventListener('change', e => { if (e.target.matches('[data-vgw]')) { VG.week = e.target.value; refreshAll(); } });
@@ -3798,11 +3626,6 @@ document.addEventListener('click', e => {
   else if (a === 'back') { VG.obra = ''; refreshAll(); }
   else if (a === 'ativ') { TK.obra = VG.obra; TK.week = VG.week; switchTab('ativ'); }
   else if (a === 'pdf') printVG();
-  else if (a === 'go') { const t = document.getElementById(b.dataset.id); if (t) t.scrollIntoView({behavior: reduceMotion ? 'auto' : 'smooth', block: 'start'}); }
-  else if (a === 'more') { const c = b.closest('.card, .vg-cg') || b.parentElement; const open = c.classList.toggle('vg-open'); b.textContent = open ? 'Mostrar menos' : `Ver todos (${b.dataset.n})`; }
-  else if (a === 'copy') { const t = VG._obra && VG._obra.sum; if (!t) return; const done = () => toast('Resumo copiado.', 'ok');
-    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(done).catch(() => prompt('Copie o texto:', t)); else prompt('Copie o texto:', t); }
-  else if (a === 'pres') presStart();
 });
 
 /* ---------- PDF da visão gerencial ---------- */
@@ -3838,15 +3661,8 @@ function printVG(){
     <div><div class="p-h3t">Impedimentos (${d.A.imp.length})</div>${lst(d.A.imp, x => it(x, esc(x.a.impedimentos)))}</div></div>`;
   const up = d.U.length ? `<table class="p-at"><colgroup><col style="width:10%"><col style="width:9%"><col style="width:44%"><col style="width:20%"><col style="width:17%"></colgroup><thead><tr><th>Data</th><th>Evento</th><th>Serviço</th><th>Trecho</th><th>Impedimento</th></tr></thead><tbody>${d.U.slice(0, 8).map(u => `<tr><td><b>${fmtBR(u.d)}</b></td><td>${u.t}</td><td class="l"><span class="c2">${esc(u.x.a.nome)}</span></td><td class="l"><span class="c2">${esc(u.x.a.trecho || '')}</span></td><td>${esc(u.x.a.impedimentos || '')}</td></tr>`).join('')}</tbody></table>` : '<div class="p-note">Nenhum serviço começa ou termina nas próximas 3 semanas.</div>';
   const hist = `<div class="p-h3">${d.H3.map(h => `<div class="p-h3b"><div class="p-h3top"><div class="p-h3t">${h.kind === 'labor' ? 'Mão de obra' : 'Equipamentos'}</div>${h.any ? histo3Read(h) : ''}</div>${h.any ? `<img src="${offscreenImage(histo3Config(h, true), 640, 300)}" style="border:1px solid #F1F2F4;border-radius:8px">` : '<div class="p-note">Sem histograma nestas 3 semanas.</div>'}</div>`).join('')}</div>`;
-  const c = d.chg; const nm = arr => arr.slice(0, 4).map(x => esc((x.x || x).a.nome)).join('; ') + (arr.length > 4 ? '…' : '');
-  const chgP = c ? `<div class="p-sec">O que mudou desde a semana passada (${esc(weekShort(c.wp))} → ${esc(weekShort(w))})</div><div class="p-chg">
-    <div><b>Avanço na semana:</b> ${c.dAv == null ? '—' : vgPP(c.dAv)} · <b>Mão de obra:</b> ${d.L.d == null ? '—' : (d.L.d > 0 ? '+' : '') + fmtN(d.L.d)} · <b>Equipamentos:</b> ${d.E.d == null ? '—' : (d.E.d > 0 ? '+' : '') + fmtN(d.E.d)}</div>
-    ${c.atr.length ? `<div><b style="color:#DC2626">Passaram a atrasar (${c.atr.length}):</b> ${nm(c.atr)}</div>` : ''}${c.conc.length ? `<div><b style="color:#16A34A">Concluídos (${c.conc.length}):</b> ${nm(c.conc)}</div>` : ''}${c.ini.length ? `<div><b>Iniciados (${c.ini.length}):</b> ${nm(c.ini)}</div>` : ''}${c.rep.length ? `<div><b style="color:#B45309">Reprogramados (${c.rep.length}):</b> ${nm(c.rep)}</div>` : ''}
-    ${!(c.atr.length || c.conc.length || c.ini.length || c.rep.length) ? '<div>Nenhuma mudança de situação nas atividades.</div>' : ''}</div>` : '';
-  const ea = d.EA && d.wks ? `<div class="p-sec">Efetivo × avanço físico (últimas ${d.wks.length} semanas)</div><img class="p-img" style="max-height:250px;object-fit:contain" src="${offscreenImage(vgEfAvConfig(d.wks, d.EA, false, true), 1100, 280)}">` : '';
   const html = `<div class="p-page">${pHead('Visão gerencial — ' + d.label)}<div class="p-filt"><span class="pdot" style="background:${SEM[d.sem.k].c}"></span><b style="color:${SEM[d.sem.k].c}">${SEM[d.sem.k].l}</b> — ${esc(d.sem.why)} &nbsp;·&nbsp; <b>Semana:</b> ${esc(weekLabel(w, true))}</div>
-    <div class="p-sumtx">${esc(d.sum || '')}</div>${kp}${chgP}${ea}</div>
-    <div class="p-page">${pHead('Visão gerencial — ' + d.label)}<div class="p-sec">Precisa de atenção</div>${att}<div class="p-sec">Próximas 3 semanas</div>${up}<div class="p-sec">Histograma — últimas 3 semanas</div>${hist}</div>`;
+    ${kp}<div class="p-sec">Precisa de atenção</div>${att}<div class="p-sec">Próximas 3 semanas</div>${up}<div class="p-sec">Histograma — últimas 3 semanas</div>${hist}</div>`;
   doPrint(html);
 }
 

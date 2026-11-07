@@ -156,11 +156,15 @@ td select{border:1px solid var(--line);border-radius:7px;padding:4px 6px;font-si
 .sync.load .dot{animation:pulse 1s infinite}@keyframes pulse{50%{opacity:.3}}
 .sync .acts{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
 .sync-t{white-space:nowrap}
+.ia-list{display:flex;flex-direction:column;gap:8px}
+.ia-row{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:2px 12px;border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-size:14px}
+.ia-row b{text-align:right}.ia-row small{grid-column:1/-1;color:#B45309;font-size:12px}
+@media (max-width:640px){.sync .acts .sync-det{flex:0 0 auto}.sync .acts [data-sync=run]{flex:0 0 auto}}
 .side-sync{display:flex;align-items:center;gap:7px;font-size:11.5px;color:#A1A1AA;line-height:1.3}
 .side-sync .dot{width:8px;height:8px;border-radius:50%;background:#71717A;flex:none}
 .side-sync.ok .dot{background:var(--ok)}.side-sync.chg{color:#FDBA74}.side-sync.chg .dot{background:var(--or);box-shadow:0 0 0 3px rgba(247,147,30,.25)}.side-sync.err{color:#FCA5A5}.side-sync.err .dot{background:var(--err)}.side-sync.load .dot{animation:pulse 1s infinite}
 #btnSyncM{position:relative}#btnSyncM.has-new::after{content:'';position:absolute;top:4px;right:4px;width:9px;height:9px;border-radius:50%;background:var(--or);box-shadow:0 0 0 2px var(--bk)}
-@media (max-width:640px){.sync{padding:8px 12px}.sync .acts{margin-left:0;width:100%}.sync .acts .btn{flex:1}}
+@media (max-width:640px){.sync{padding:8px 12px}.sync .acts{margin-left:0;width:100%}.sync .acts .btn.primary{flex:1}.sync .acts .btn{padding:8px 12px}}
 .sync.err{padding-top:6px;padding-bottom:6px}
 .notice{background:var(--or-soft);color:#7C3E00;border-bottom:1px solid #FBD9B0;padding:7px 22px;font-size:12px;display:flex;gap:8px;align-items:center}
 .notice b{color:#5C2E00}
@@ -2659,7 +2663,7 @@ const Sync = {
     try {
       this.wb = await fetchPublishedWorkbook(cfg.url, {labor: cfg.gidL, equip: cfg.gidE}); this.at = new Date(); this.lastWb = this.wb; this.lastSrc = 'Planilha conectada'; this.lastAt = this.at;
       this.paint();
-      if (manual) { const sm = this.summarize(this.wb); if (['labor', 'equip', 'manual'].some(k => sm[k] && (sm[k].novos || sm[k].alterados || sm[k].pend))) this.review(); else if (sm.ativ && (sm.ativ.novos || sm.ativ.alterados || sm.ativ.pend)) this.reviewAtiv(); else toast('O app já está igual à planilha.', 'ok'); }
+      if (manual) this.importAll();
     } catch (e) {
       Log.add('Não foi possível ler a planilha conectada — ' + e.message + ' Sem acesso pelo link, use “Importar planilha” com o arquivo .xlsx baixado.', 'err');
       this.bar('err', `<b>Planilha não conectada</b> · <a href="#" data-sync="avisos" style="color:inherit">ver detalhes em Avisos</a>`, `<button class="btn sm" data-sync="run">Tentar de novo</button><button class="btn sm" data-sync="cfg">Conexão</button>`);
@@ -2672,9 +2676,47 @@ const Sync = {
     const chg = ['labor', 'equip', 'manual'].some(k => sm[k] && (sm[k].novos || sm[k].alterados));
     const chA = sm.ativ && (sm.ativ.novos || sm.ativ.alterados || sm.ativ.pend);
     this.bar(chg || chA ? 'chg' : 'ok', `<b>Planilha conectada</b> · lida às ${hh} · ${part('labor')} · ${part('equip')}${sm.manual ? ' · ' + part('manual') : ''} · ${part('ativ')}`,
-      `${chg || ['labor', 'equip', 'manual'].some(k => sm[k] && sm[k].pend) ? '<button class="btn sm primary" data-sync="review">Revisar e importar</button>' : ''}${chA ? '<button class="btn sm primary" data-sync="ativ">Importar atividades</button>' : ''}<button class="btn sm" data-sync="run">⟳ Ler de novo</button>`);
+      `<button class="btn sm primary" data-sync="all">⬇ Importar tudo</button><button class="btn sm" data-sync="run" title="Ler a planilha de novo">⟳</button><button class="btn sm ghost sync-det" data-sync="det" title="Revisar linha a linha antes de importar">Revisar</button>`);
   },
   review(){ if (this.wb) openImport(UI.tab === 'equip' ? 'equip' : 'labor', this.wb, `Planilha conectada (lida às ${this.at.toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'})})`); },
+  /** prepara tudo o que a planilha conectada traz (MO, Equipamento, Resumo, Atividades) */
+  plan(wb){
+    const P = {}; 
+    for (const k of ['labor', 'equip']) { const sh = guessSheet(k, wb); if (!sh) continue; const g = sheetGrid(wb.Sheets[sh]); const h = mapHeaders(k, g);
+      if (!h || !DISTINCT[k].some(x => h.map[x] != null)) continue; P[k] = analyzeImport(k, g, h, '', false, detectDateOrder(k, g, h) || detectWbOrder(wb) || 'dmy'); }
+    { const sh = guessSheet('manual', wb); const g = sh && sheetGrid(wb.Sheets[sh]); const h = g && mapResumoHeaders(g); if (h) P.manual = analyzeResumo(g, h, '', false); }
+    { const sh = trkFindSheet('ativ', wb); const g = sh && sheetGrid(wb.Sheets[sh]); const h = g && trkMapHeaders('ativ', g);
+      if (h && (h.map.obra != null || TK.obra)) P.ativ = analyzeTrk('ativ', g, h, h.map.obra == null ? obraLabel(TK.obra) : ''); }
+    const cnt = {}; for (const [k, res] of Object.entries(P)) { const v = res.filter(r => !r.errors.length); cnt[k] = {novos: v.filter(r => !r.existing).length, alt: v.filter(r => r.changed).length, err: res.length - v.length}; }
+    return {P, cnt};
+  },
+  /** um botão: confirma e importa tudo de uma vez */
+  importAll(){
+    if (!this.wb) return this.run(true);
+    const {P, cnt} = this.plan(this.wb);
+    const NM = {labor: 'Mão de obra', equip: 'Equipamentos', manual: 'Totais (aba Resumo)', ativ: 'Atividades'};
+    const ks = Object.keys(cnt); const tot = ks.reduce((s, k) => s + cnt[k].novos + cnt[k].alt, 0), errT = ks.reduce((s, k) => s + cnt[k].err, 0);
+    if (!tot) { toast(errT ? `Nada novo para importar (${errT} linha(s) com erro — veja em Avisos).` : 'O app já está igual à planilha.', errT ? 'err' : 'ok'); if (errT) this.logErrs(P); return; }
+    const rows = ks.map(k => `<div class="ia-row"><span>${NM[k]}</span><b>${cnt[k].novos + cnt[k].alt ? `${cnt[k].novos ? `${cnt[k].novos} novo(s)` : ''}${cnt[k].novos && cnt[k].alt ? ' · ' : ''}${cnt[k].alt ? `${cnt[k].alt} alterado(s)` : ''}` : '<span class="muted" style="font-weight:400">sem novidades</span>'}</b>${cnt[k].err ? `<small>${cnt[k].err} com erro (ficam de fora)</small>` : ''}</div>`).join('');
+    const md = openModal({title: 'Importar da planilha', body: `<div class="ia-list">${rows}</div><p class="muted" style="font-size:12.5px;margin:10px 0 0">Nada é apagado: registros que não estão na planilha continuam no app, e células vazias não apagam o que já existe. Antes de importar, o app guarda um ponto de restauração.${errT ? ' As linhas com erro ficam registradas em Avisos.' : ''}</p>`,
+      foot: '<button class="btn" data-x>Cancelar</button><button class="btn primary" data-ok>⬇ Importar tudo</button>'});
+    $('[data-x]', md.el).onclick = md.close;
+    $('[data-ok]', md.el).onclick = () => {
+      Snap.take('Antes de importar tudo da planilha conectada');
+      const res = Repo.tx(() => { const o = {};
+        for (const k of ['labor', 'equip']) if (P[k]) o[k] = commitImport(k, P[k], false, null);
+        if (P.manual) o.manual = commitResumo(P.manual); if (P.ativ) o.ativ = commitTrk('ativ', P.ativ); return o; });
+      if (!res.ok) return;
+      if (errT) this.logErrs(P);
+      const t = ks.filter(k => res.out[k] && (res.out[k].created || res.out[k].updated)).map(k => `${NM[k]}: ${res.out[k].created} novo(s), ${res.out[k].updated} alterado(s)`);
+      Log.add('Importação da planilha conectada — ' + (t.join(' · ') || 'nada alterado') + (errT ? ` · ${errT} linha(s) com erro ficaram de fora.` : ''), 'info');
+      const first = Repo.data.ativ[0]; if (!TK.obra && first) TK.obra = obraKey(first.obra);
+      md.close(); refreshAll(); this.paint(); toast('Importação concluída.' + (errT ? ` ${errT} linha(s) com erro ficaram de fora (ver Avisos).` : ''), 'ok');
+    };
+  },
+  logErrs(P){ const NM = {labor: 'MO', equip: 'Equipamento', manual: 'Resumo', ativ: 'Atividades'};
+    for (const [k, res] of Object.entries(P)) { const bad = res.filter(r => r.errors.length); if (!bad.length) continue;
+      Log.add(`Aba ${NM[k]}: ${bad.length} linha(s) não importada(s) — ` + bad.slice(0, 8).map(r => `linha ${r.line}: ${r.errors.map(e => e.field + ' ' + e.msg).join(', ')}`).join('; ') + (bad.length > 8 ? '…' : ''), 'warn'); } },
   reviewAtiv(){ if (this.wb) openTrkImport(this.wb, `Planilha conectada (lida às ${this.at.toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'})})`); },
   markImported(){ setTimeout(() => this.paint(), 0); },
   auto(){ if (sheetCfg().auto) this.run(false); else this.bar('', 'Planilha conectada — leitura automática desativada.', '<button class="btn sm" data-sync="run">⟳ Ler agora</button><button class="btn sm" data-sync="cfg">Conexão</button>'); },
@@ -2692,7 +2734,8 @@ const Sync = {
     $('[data-ok]', md.el).onclick = () => { const n = {url: $('[data-c=url]', md.el).value.trim(), gidL: $('[data-c=gidL]', md.el).value.trim(), gidE: $('[data-c=gidE]', md.el).value.trim(), auto: $('[data-c=auto]', md.el).checked}; saveSheetCfg(n); md.close(); this.run(true); };
   }
 };
-document.addEventListener('click', e => { const b = e.target.closest('[data-sync]'); if (!b) return; const a = b.dataset.sync; e.preventDefault(); if (a === 'run') Sync.run(true); else if (a === 'review') Sync.review(); else if (a === 'ativ') Sync.reviewAtiv(); else if (a === 'cfg') Sync.config(); else if (a === 'avisos') switchTab('avisos'); });
+document.addEventListener('click', e => { const b = e.target.closest('[data-sync]'); if (!b) return; const a = b.dataset.sync; e.preventDefault(); if (a === 'run') Sync.run(true); else if (a === 'review') Sync.review(); else if (a === 'ativ') Sync.reviewAtiv(); else if (a === 'all') Sync.importAll();
+  else if (a === 'det') { const sm = Sync.summarize(Sync.wb); if (['labor', 'equip', 'manual'].some(k => sm[k] && (sm[k].novos || sm[k].alterados || sm[k].pend))) Sync.review(); else Sync.reviewAtiv(); } else if (a === 'cfg') Sync.config(); else if (a === 'avisos') switchTab('avisos'); });
 function paintStorage(){ const el = document.getElementById('storeUse'); if (!el) return; const mb = Repo.lastBytes / 1048576; el.innerHTML = `Armazenamento usado: <b>${mb < 0.1 ? Math.max(1, Math.round(Repo.lastBytes / 1024)) + ' KB' : mb.toLocaleString('pt-BR', {maximumFractionDigits: 1}) + ' MB'}</b> de ~5 MB`; el.style.color = mb > 4 ? '#FCA5A5' : ''; }
 function paintLogo(){ $('#logoBox').innerHTML = logoHTML(false); $('#logoBoxM').innerHTML = logoHTML(false); }
 /* =====================================================================

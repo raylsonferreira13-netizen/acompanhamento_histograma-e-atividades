@@ -2,7 +2,8 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
 <title>Controle de Histogramas — COSAMPA</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -57,8 +58,20 @@ button,input,select{font-family:inherit;font-size:13px}
 .vg-dot{display:inline-block;vertical-align:-1px;margin:0 4px 0 2px;width:12px;height:12px;border-radius:50%;background:var(--c);box-shadow:0 0 0 4px color-mix(in srgb,var(--c) 18%,transparent);flex:none}
 .vg-card{padding:0;overflow:hidden}
 .vg-tbl{display:flex;flex-direction:column}
-.vg-row{display:grid;grid-template-columns:minmax(200px,1.5fr) minmax(170px,1.2fr) minmax(120px,.9fr) minmax(120px,.9fr) minmax(140px,1fr) minmax(170px,1.2fr);gap:14px;align-items:center;padding:14px 18px;border:0;border-bottom:1px solid var(--line2);background:#fff;text-align:left;font:inherit;color:inherit;cursor:pointer;border-left:5px solid var(--c,transparent);width:100%}
-.vg-row:hover{background:#FFFBF5}
+.vg-row{display:grid;grid-template-columns:minmax(200px,1.5fr) minmax(170px,1.2fr) minmax(120px,.9fr) minmax(120px,.9fr) minmax(140px,1fr) minmax(170px,1.2fr) 110px;gap:14px;align-items:center;padding:14px 18px;border:0;border-bottom:1px solid var(--line2);background:#fff;text-align:left;font:inherit;color:inherit;cursor:pointer;border-left:5px solid var(--c,transparent);width:100%}
+.vg-row{transition:background .15s,box-shadow .15s}
+@media (hover:hover){.vg-row:not(.vg-h):hover{background:#FFFBF5;box-shadow:inset 0 0 0 2px #FBC98A}}
+.vg-row:not(.vg-h):active{background:#FFF1E0}
+.vg-go{display:flex;align-items:center;justify-content:center;gap:6px;border:1.5px solid var(--or);color:#C2410C;background:#fff;border-radius:999px;padding:7px 12px;font-weight:800;font-size:13px;white-space:nowrap;transition:background .15s,color .15s}
+.vg-go i{font-style:normal;font-size:16px;transition:transform .15s}
+@media (hover:hover){.vg-row:hover .vg-go{background:var(--or);color:#fff}.vg-row:hover .vg-go i{transform:translateX(3px)}}
+.vg-pick{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:#fff;border:1px solid #FBC98A;border-left:5px solid var(--or);border-radius:12px;padding:12px 16px;margin-bottom:12px;box-shadow:var(--sh)}
+.vg-pick-t{display:flex;align-items:center;gap:12px;flex:1;min-width:240px}.vg-pick-ic{font-size:26px;line-height:1}
+.vg-pick-t b{display:block;font-size:15px}.vg-pick-t small{display:block;color:var(--mut);font-size:12.5px;margin-top:2px}
+.vg-pick-s{display:flex;flex-direction:column;gap:3px;font-size:10px;font-weight:900;letter-spacing:.6px;text-transform:uppercase;color:var(--mut);min-width:240px}
+.vg-pick-s select,.vg-sw select{border:1.5px solid var(--or);border-radius:10px;padding:9px 12px;font-size:14px;font-weight:800;color:var(--tx);background:#fff;text-transform:none;letter-spacing:0;cursor:pointer}
+.vg-sw select{font-size:20px;font-weight:900;border-color:var(--line);padding:6px 34px 6px 12px;max-width:100%}
+@media (max-width:640px){.vg-pick{padding:12px}.vg-pick-s{min-width:0;width:100%}.vg-go{grid-column:1/-1;padding:10px;font-size:14px}.vg-sw{width:100%}.vg-sw select{width:100%;font-size:18px}}
 .vg-h{cursor:default;background:#0E0E10 !important;color:#fff;font-size:11px;font-weight:900;letter-spacing:.6px;text-transform:uppercase;padding:10px 18px;border-left-color:#0E0E10}
 .vg-ob{display:flex;gap:12px;align-items:center}.vg-ob b{font-size:15px;display:block}.vg-ob small{display:block;color:var(--mut);font-size:12px;margin-top:2px}
 .vg-av{display:flex;flex-direction:column;gap:4px}.vg-avn{display:flex;align-items:baseline;gap:8px}.vg-avn b{font-size:20px}.vg-avn span{font-size:12px;color:var(--mut)}
@@ -75,7 +88,7 @@ button,input,select{font-family:inherit;font-size:13px}
 .vg-att{border-top:4px solid var(--line)}.vg-att.err{border-top-color:#DC2626}.vg-att.warn{border-top-color:#D97706}
 .vg-ul{list-style:none;margin:0;padding:0}.vg-ul li{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line2);font-size:13px}
 .vg-ul li:last-child{border-bottom:0}.vg-ul li small{display:block;color:var(--mut);font-size:11.5px}.vg-ul .r{text-align:right;white-space:nowrap;font-size:12px}.vg-ul .r small{margin-top:2px}
-@media (max-width:1100px){.vg-row{grid-template-columns:repeat(2,minmax(0,1fr))}.vg-h{display:none}.vg-row > div[data-l]::before{content:attr(data-l);display:block;font-size:10px;font-weight:900;letter-spacing:.6px;text-transform:uppercase;color:var(--mut);margin-bottom:3px}.vg-ob{grid-column:1/-1}.vg-att3{grid-template-columns:minmax(0,1fr)}.vg-k4{grid-template-columns:repeat(2,minmax(0,1fr))}.vg-rule{margin-left:0}}
+@media (max-width:1100px){.vg-go{grid-column:1/-1}.vg-row{grid-template-columns:repeat(2,minmax(0,1fr))}.vg-h{display:none}.vg-row > div[data-l]::before{content:attr(data-l);display:block;font-size:10px;font-weight:900;letter-spacing:.6px;text-transform:uppercase;color:var(--mut);margin-bottom:3px}.vg-ob{grid-column:1/-1}.vg-att3{grid-template-columns:minmax(0,1fr)}.vg-k4{grid-template-columns:repeat(2,minmax(0,1fr))}.vg-rule{margin-left:0}}
 @media (max-width:560px){.vg-row{grid-template-columns:minmax(0,1fr)}}
 .vg-jr2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;margin-bottom:14px}
 .vg-jr2 > .card{margin:0;min-width:0}
@@ -339,8 +352,10 @@ td.num{font-variant-numeric:tabular-nums;font-weight:700}
   .jr-miles{grid-column:1 / -1;grid-template-columns:repeat(4,1fr);grid-auto-rows:auto}
 }
 @media (max-width:900px){
-  .app{display:block;padding-bottom:66px}
-  .side{position:fixed;top:auto;bottom:0;left:0;right:0;height:62px;flex-direction:row;border-right:0;border-top:3px solid var(--or)}
+  .app{display:block;padding-bottom:calc(66px + env(safe-area-inset-bottom))}
+  .side{position:fixed;top:auto;bottom:0;left:0;right:0;height:calc(62px + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);flex-direction:row;border-right:0;border-top:3px solid var(--or)}
+  .topbar{padding-top:max(9px, env(safe-area-inset-top))}
+  .toast-box{left:12px;right:12px;bottom:calc(74px + env(safe-area-inset-bottom));max-width:none}
   .side-brand,.side-foot,.side-nav .cap{display:none}
   .side-nav{flex-direction:row;padding:4px 6px;width:100%;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}
   .side-nav button{flex:0 0 auto;width:auto;min-width:74px;max-width:96px;font-size:10.5px;white-space:normal;line-height:1.15;text-align:center}
@@ -374,11 +389,30 @@ td.num{font-variant-numeric:tabular-nums;font-weight:700}
   .kpi .v{font-size:22px}
   .obra-grid{grid-template-columns:1fr}
   .obra-card .pair > div{height:180px}
-  .modal-bg{padding:0}
-  .modal{border-radius:0;min-height:100vh}
-  .modal-b{max-height:none}
+  .modal-bg{padding:0;align-items:stretch}
+  .modal{border-radius:0;min-height:100vh;min-height:100dvh;height:100vh;height:100dvh;display:flex;flex-direction:column}
+  .modal-h{padding-top:calc(12px + env(safe-area-inset-top))}
+  .modal-b{max-height:none;flex:1;overflow:auto;-webkit-overflow-scrolling:touch}
+  .modal-f{position:sticky;bottom:0;padding-bottom:calc(12px + env(safe-area-inset-bottom))}
+  .modal-f .btn{flex:1 1 auto;justify-content:center;min-height:42px}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+/* ---------- celulares (toque) e iPhone ---------- */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+button,a,select,label{-webkit-tap-highlight-color:rgba(247,147,30,.18)}
+@media (hover:none) and (pointer:coarse){
+  /* 16px evita o zoom automático do iPhone ao tocar num campo */
+  input:not([type=checkbox]):not([type=radio]):not([type=range]),select,textarea{font-size:16px !important}
+}
+@supports (-webkit-touch-callout:none){
+  input[type=search],input[type=text],input:not([type]),textarea{-webkit-appearance:none;appearance:none;border-radius:8px}
+  select{-webkit-appearance:none;appearance:none;background-color:#fff;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%236B7280' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;background-size:12px 8px;padding-right:30px !important;color:var(--tx)}
+  input[type=date]{-webkit-appearance:none;appearance:none;min-height:40px;background:#fff;text-align:left;display:block;width:100%}
+  input[type=date]::-webkit-date-and-time-value{text-align:left}
+  .week-in input[type=date]{width:46px;min-width:46px;max-width:46px;color:transparent;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23E86F00' stroke-width='2' stroke-linecap='round'%3E%3Crect x='3' y='5' width='18' height='16' rx='2'/%3E%3Cpath d='M16 3v4M8 3v4M3 10h18'/%3E%3C/svg%3E") no-repeat center}
+  .vg-sw select{background-position:right 12px center}
+  .jr-ctrl input[type=range]{-webkit-appearance:auto}
+}
 /* ---------- print ---------- */
 @media print{
   @page{size:A4 landscape;margin:8mm}
@@ -3578,20 +3612,25 @@ function renderVG(){
   const w = VG.week; const list = vgObras().map(o => vgObraData(o, w)).sort((a, b) => SEM[a.sem.k].o - SEM[b.sem.k].o || (a.m.real - a.m.plan) - (b.m.real - b.m.plan) || a.label.localeCompare(b.label, 'pt-BR'));
   VG._list = list;
   $('[data-vgt]', sec).textContent = 'Visão gerencial — todas as obras';
-  $('[data-vgs]', sec).innerHTML = `Situação no fechamento de ${esc(weekLabel(w, true))}. Clique na obra para ver o detalhe.`;
+  $('[data-vgs]', sec).innerHTML = `Situação no fechamento de ${esc(weekLabel(w, true))}.`;
   const cnt = k => list.filter(x => x.sem.k === k).length;
   $('[data-vgb]', sec).innerHTML = !list.length ? `<div class="card"><div class="empty"><b>Nenhuma obra cadastrada</b>Importe a planilha de mão de obra, equipamentos ou atividades.</div></div>` : `
+    <div class="vg-pick">
+      <div class="vg-pick-t"><span class="vg-pick-ic" aria-hidden="true">👆</span><div><b>Escolha uma obra para ver o detalhe</b><small>percurso do efetivo, atividades restantes, próximas semanas e pendências</small></div></div>
+      <label class="vg-pick-s"><span>Abrir obra</span><select data-vgpick><option value="">Selecione…</option>${list.map(x => `<option value="${esc(x.o)}">${esc(x.label)} — ${SEM[x.sem.k].l}</option>`).join('')}</select></label>
+    </div>
     <div class="vg-sum">${['r', 'y', 'g', 'n'].filter(k => cnt(k) || k !== 'n').map(k => `<div class="vg-pill" style="--c:${SEM[k].c}">${vgDot(k)}<b>${cnt(k)}</b> ${SEM[k].l}</div>`).join('')}
       <span class="muted vg-rule">🔴 término vencido ou &gt; 15 p.p. abaixo do planejado · 🟡 5–15 p.p. abaixo, impedimento ou início atrasado</span></div>
     <div class="card vg-card"><div class="vg-tbl">
-      <div class="vg-row vg-h"><div>Obra</div><div>Avanço físico</div><div>Mão de obra</div><div>Equipamentos</div><div>Pendências</div><div>Próximo término</div></div>
-      ${list.map(x => `<button type="button" class="vg-row" data-vg="obra" data-o="${esc(x.o)}" style="--c:${SEM[x.sem.k].c}">
+      <div class="vg-row vg-h"><div>Obra</div><div>Avanço físico</div><div>Mão de obra</div><div>Equipamentos</div><div>Pendências</div><div>Próximo término</div><div></div></div>
+      ${list.map(x => `<button type="button" class="vg-row" data-vg="obra" data-o="${esc(x.o)}" style="--c:${SEM[x.sem.k].c}" title="Abrir o detalhe de ${esc(x.label)}">
         <div class="vg-ob">${vgDot(x.sem.k)}<div><b>${esc(x.label)}</b><small>${esc(x.sem.why)}</small></div></div>
         <div data-l="Avanço físico">${vgAvBar(x.m)}</div>
         <div data-l="Mão de obra">${vgEf(x.L, 'pessoas')}</div>
         <div data-l="Equipamentos">${vgEf(x.E, 'equipamentos')}</div>
         <div data-l="Pendências" class="vg-pd">${x.m.n ? `<span class="${x.atr ? 'bad' : ''}"><b>${x.atr}</b> atrasada(s)</span><span class="${x.imp ? 'warn' : ''}"><b>${x.imp}</b> com impedimento</span><span><b>${x.rest}</b> restante(s)</span>` : '<span class="muted">—</span>'}</div>
         <div data-l="Próximo término" class="vg-nx">${x.prox ? `<b>${fmtBR(x.prox.alvo)}</b><small>${esc(x.prox.a.nome)}</small><small class="muted">em ${daysBetween(x.ref, x.prox.alvo)} dia(s)</small>` : '<span class="muted">—</span>'}</div>
+        <div class="vg-go"><span>Ver obra</span><i aria-hidden="true">→</i></div>
       </button>`).join('')}
     </div></div>`;
 }
@@ -3631,7 +3670,8 @@ function vgRestTable(d){
 function renderVGObra(sec){
   const w = VG.week, o = VG.obra; const d = vgObraData(o, w); VG._obra = d;
   const A = vgAttention(d); const U = vgUpcoming(d); const H3 = ['labor', 'equip'].map(k => histo3Data(k, o, w));
-  $('[data-vgt]', sec).innerHTML = `<button class="vg-back" data-vg="back"><span aria-hidden="true">←</span> Todas as obras</button><span class="vg-on">${esc(d.label)}</span>`;
+  const obs = vgObras().map(x => ({o: x, l: obraLabel(x)})).sort((a, b) => a.l.localeCompare(b.l, 'pt-BR'));
+  $('[data-vgt]', sec).innerHTML = `<button class="vg-back" data-vg="back"><span aria-hidden="true">←</span> Todas as obras</button>${obs.length > 1 ? `<label class="vg-sw" title="Trocar de obra"><select data-vgpick>${obs.map(x => `<option value="${esc(x.o)}" ${x.o === o ? 'selected' : ''}>${esc(x.l)}</option>`).join('')}</select></label>` : `<span class="vg-on">${esc(d.label)}</span>`}`;
   $('[data-vgs]', sec).innerHTML = `${vgDot(d.sem.k)} <b style="color:${SEM[d.sem.k].c}">${SEM[d.sem.k].l}</b> — ${esc(d.sem.why)} · fechamento de ${esc(weekLabel(w, true))}`;
   const box = (t, n, items, empty, cls) => `<div class="card vg-att ${cls}"><div class="card-h"><h3>${t}</h3><span class="chip ${n ? cls : ''}">${n}</span></div>${n ? `<ul class="vg-ul">${items}</ul>` : `<div class="muted" style="padding:6px 2px">${empty}</div>`}</div>`;
   const dAlvo = x => { const n = daysBetween(d.ref, x.alvo); return n < 0 ? `<span class="chip err">vencido há ${-n} d</span>` : n === 0 ? '<span class="chip err">vence hoje</span>' : `<span class="chip warn">em ${n} d</span>`; };
@@ -3661,6 +3701,7 @@ function renderVGObra(sec){
   VG._obra.H3 = H3; VG._obra.A = A; VG._obra.U = U;
 }
 document.addEventListener('click', e => { if (e.target.closest('[data-vgo]')) { VG.obra = TK.obra; VG.week = TK.week; switchTab('vg'); } });
+document.addEventListener('change', e => { if (e.target.matches('[data-vgpick]') && e.target.value) { VG.obra = e.target.value; refreshAll(); window.scrollTo(0, 0); } });
 document.addEventListener('change', e => { if (e.target.matches('[data-vgw]')) { VG.week = e.target.value; refreshAll(); } });
 document.addEventListener('click', e => {
   const b = e.target.closest('[data-vg]'); if (!b) return;

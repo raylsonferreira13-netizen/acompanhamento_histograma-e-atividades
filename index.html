@@ -5,6 +5,15 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="format-detection" content="telephone=no">
 <title>Controle de Histogramas — COSAMPA</title>
+<meta name="theme-color" content="#0E0E10">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Histogramas">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<script src="config.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
@@ -410,6 +419,43 @@ td.num{font-variant-numeric:tabular-nums;font-weight:700}
   .modal-f .btn{flex:1 1 auto;justify-content:center;min-height:42px}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+/* ---------- login (servidor Apps Script) ---------- */
+.so-api{display:none !important}
+body.modo-api .so-api{display:revert !important}body.modo-api .card.so-api{display:flex !important}
+body.modo-api .so-local,body.modo-api #sideMini{display:none !important}
+.usr-f .form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.usr-f .fld input{width:100%}
+@media (max-width:640px){.usr-f .form-grid{grid-template-columns:minmax(0,1fr)}}
+
+body.modo-api #syncBar,body.modo-api #btnSyncCfg,body.modo-api [data-a=new],body.modo-api [data-a=import],body.modo-api [data-a=template],body.modo-api [data-a=manual],body.modo-api [data-a=edit],body.modo-api [data-a=del],body.modo-api [data-a=medit],body.modo-api [data-a=mdel],
+body.modo-api [data-ta=new],body.modo-api [data-ta=edit],body.modo-api [data-ta=del],body.modo-api [data-ta=avanco],body.modo-api [data-ta=import],body.modo-api [data-ta=template],body.modo-api [data-db]{display:none !important}
+body.modo-api table:has(tbody td:first-child > [data-a=edit]) tr > :first-child,body.modo-api table:has(tbody td:first-child > [data-a=medit]) tr > :first-child,body.modo-api table:has(tbody td:first-child > [data-ta=edit]) tr > :first-child{display:none}
+body.so-usuario .admin-only,body.modo-api.so-usuario .card.admin-only{display:none !important}
+body.auth-on{overflow:hidden}
+#auth{position:fixed;inset:0;z-index:400;background:radial-gradient(1200px 600px at 20% -10%,#3a2410 0,transparent 60%),#0E0E10;display:flex;align-items:center;justify-content:center;padding:max(16px,env(safe-area-inset-top)) 16px max(16px,env(safe-area-inset-bottom));overflow:auto}
+.au-card{width:100%;max-width:400px;background:#fff;border-radius:18px;padding:26px 24px 20px;box-shadow:0 30px 80px rgba(0,0,0,.45);border-top:5px solid var(--or)}
+.au-logo{display:flex;justify-content:center;background:#0E0E10;border-radius:12px;padding:12px;margin-bottom:8px}.au-logo img{height:34px;width:auto}
+.au-app{text-align:center;font-size:12px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--mut);margin-bottom:12px}
+.au-card h2{font-size:21px;margin:4px 0 12px}
+.au-f{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;font-size:12px;font-weight:800;color:#374151}
+.au-f input,.cfg-pw input{border:1.5px solid var(--line);border-radius:10px;padding:11px 12px;font-size:15px;width:100%;background:#fff;color:var(--tx)}
+.au-f input:focus,.cfg-pw input:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rgba(247,147,30,.18)}
+.au-pw{position:relative;display:block}.au-pw input{padding-right:46px}
+.au-eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:none;font-size:18px;cursor:pointer;padding:6px;opacity:.7}
+.au-chk{display:flex;gap:9px;align-items:center;font-size:14px;margin:6px 0 10px;cursor:pointer}.au-chk input{width:18px;height:18px;accent-color:var(--or);flex:none}
+.au-btn{width:100%;justify-content:center;padding:12px;font-size:15px;margin-top:4px}
+.au-link{display:block;margin:12px auto 0;border:0;background:none;color:#C2410C;font-weight:800;font-size:14px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.au-p{font-size:13.5px;color:#4B5563;line-height:1.5;margin:0 0 12px}.au-dica{font-size:12.5px;background:#FFF7ED;border-radius:8px;padding:8px 10px;margin-top:12px}
+.au-regra{font-size:12px;color:var(--mut);margin:-4px 0 10px}.au-regra.ok{color:#16A34A}.au-regra.ok::before{content:'✓ '}.au-regra.err{color:#B45309}
+.au-msg{font-size:13px;margin-top:10px;border-radius:8px}.au-msg:empty{display:none}.au-msg.err{color:#991B1B;background:#FEF2F2;padding:9px 11px}.au-msg.ok{color:#166534;background:#F0FDF4;padding:9px 11px}.au-msg.info{color:#1E3A8A;background:#EFF6FF;padding:9px 11px}
+.side-user{border-top:1px solid #26262B;margin-top:8px;padding-top:10px}.side-user [data-quem-sou] b{display:block;font-size:13px}.side-user [data-quem-sou] small{display:block;color:#A1A1AA;font-size:11px;margin-bottom:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cfg-me b{display:block;font-size:15px}.cfg-me small{display:block;color:var(--mut);margin-bottom:10px}
+.cfg-pw{display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--line2);padding-top:10px}.cfg-pw .btn{align-self:flex-start}
+.usr-acts{white-space:nowrap}.usr-acts .btn{margin:2px}
+.usr-f fieldset{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:10px 0}.usr-f legend{font-weight:800;font-size:13px;padding:0 4px}
+.usr-f .usr-obras{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:0 12px}.usr-f .usr-obras .au-chk{margin:4px 0}
+.usr-f input[name=senhaProvisoria]{border:1.5px solid var(--line);border-radius:8px;padding:9px 10px;width:100%;margin-top:4px}
+.usr-ta{width:100%;border:1.5px solid var(--line);border-radius:8px;padding:9px 10px;font-family:inherit;font-size:13px;resize:vertical;background:#FAFAFB}
+@media (max-width:640px){.au-card{padding:20px 16px 16px}.usr-acts{white-space:normal}}
 /* ---------- celulares (toque) e iPhone ---------- */
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 button,a,select,label{-webkit-tap-highlight-color:rgba(247,147,30,.18)}
@@ -483,6 +529,7 @@ button,a,select,label{-webkit-tap-highlight-color:rgba(247,147,30,.18)}
 </style>
 </head>
 <body>
+<div id="auth" hidden></div>
 <div class="app">
 <aside class="side">
   <div class="side-brand"><div class="logo" id="logoBox" title="Clique para alterar o logo"></div><div class="side-title">Controle de Histogramas<small>Planejamento e controle de obras</small></div></div>
@@ -503,13 +550,14 @@ button,a,select,label{-webkit-tap-highlight-color:rgba(247,147,30,.18)}
     <button class="side-btn" id="btnSync" style="border-color:#7C3E00">⟳ Sincronizar planilha</button>
     <div class="side-sync" id="syncMini"></div>
     <div class="side-note" id="sideMini"></div>
+    <div class="side-user so-api"><div data-quem-sou></div><button class="side-btn" id="btnSair">⎋ Sair</button></div>
   </div>
 </aside>
 <div class="content">
 <header class="topbar">
   <div class="logo-m" id="logoBoxM"></div>
   <div class="crumb"><span>Controle de Histogramas</span><b id="pageTitle">Mão de obra</b></div>
-  <div class="top-actions"><button class="btn" id="btnSyncM" title="Sincronizar planilha">⟳</button></div>
+  <div class="top-actions"><button class="btn" id="btnSyncM" title="Sincronizar planilha">⟳</button><button class="btn so-api" id="btnSairM" title="Sair">⎋</button></div>
 </header>
 <div id="syncBar"></div>
 <main>
@@ -524,18 +572,26 @@ button,a,select,label{-webkit-tap-highlight-color:rgba(247,147,30,.18)}
   <section class="tab" id="tab-config">
     <div class="toolbar"><div><h2>Configurações</h2><div class="sub">Conexões, dados e backup do aplicativo</div></div></div>
     <div class="cfg-grid">
-      <div class="card"><div class="card-h"><h3>📄 Planilha conectada</h3></div><div id="cfgSheet" class="cfg-txt"></div>
+      <div class="card so-api"><div class="card-h"><h3>👤 Minha conta</h3></div><div class="cfg-txt"><div class="cfg-me" data-quem-sou></div>
+        <form id="formMinhaSenha" class="cfg-pw" novalidate autocomplete="off"><b>Minha senha</b>
+          <input name="atual" type="password" placeholder="Senha atual" autocomplete="current-password">
+          <input name="nova" type="password" placeholder="Nova senha (8+ caracteres, letras e números)" autocomplete="new-password">
+          <input name="conf" type="password" placeholder="Repita a nova senha" autocomplete="new-password">
+          <button class="btn primary" type="submit">Trocar senha</button><div data-msg class="au-msg"></div></form></div>
+        <div class="cfg-acts"><button class="btn" id="btnSair2">⎋ Sair deste aparelho</button></div></div>
+      <div class="card so-api admin-only" style="grid-column:1/-1"><div class="card-h"><h3>👥 Usuários</h3><span class="hint">quem pode entrar no app e quais obras cada pessoa vê</span><span class="sp"></span><button class="btn primary" data-usr="novo">＋ Novo usuário</button></div><div id="usrLista"></div></div>
+      <div class="card so-local"><div class="card-h"><h3>📄 Planilha conectada</h3></div><div id="cfgSheet" class="cfg-txt"></div>
         <div class="cfg-acts"><button class="btn primary" id="btnSync2">⟳ Sincronizar agora</button><button class="btn" id="btnSyncCfg">⚙ Conexão com a planilha</button></div></div>
-      <div class="card"><div class="card-h"><h3>🗄 Banco de dados</h3></div><div id="dbStatus" class="cfg-txt"></div>
+      <div class="card so-local"><div class="card-h"><h3>🗄 Banco de dados</h3></div><div id="dbStatus" class="cfg-txt"></div>
         <div class="cfg-acts"><button class="btn" data-db="cfg">🗄 Banco de dados</button></div></div>
-      <div class="card"><div class="card-h"><h3>💾 Backup</h3></div><div class="cfg-txt">Cópia de segurança de todos os cadastros, semanas e lançamentos manuais (arquivo .json). Restaurar substitui os dados atuais, com confirmação.</div>
+      <div class="card so-local"><div class="card-h"><h3>💾 Backup</h3></div><div class="cfg-txt">Cópia de segurança de todos os cadastros, semanas e lançamentos manuais (arquivo .json). Restaurar substitui os dados atuais, com confirmação.</div>
         <div class="cfg-acts"><button class="btn" id="btnBackup">⬇ Baixar backup</button><button class="btn" id="btnRestore">⬆ Restaurar backup</button></div></div>
       <div class="card"><div class="card-h"><h3>☰ Menu</h3></div><div class="cfg-txt">Os painéis de <b>Mão de obra</b> e <b>Equipamentos</b> ficam ocultos no menu; os gráficos dessas abas aparecem na <b>Visão gerencial</b> de cada obra. A escolha vale para este navegador.</div>
         <label style="display:flex;gap:8px;align-items:center;margin-top:8px;font-size:14px"><input type="checkbox" id="cfgPaineis" style="width:auto;min-height:0"> Mostrar os painéis de Mão de obra e Equipamentos no menu</label></div>
-      <div class="card"><div class="card-h"><h3>🧹 Limpar dados</h3></div><div class="cfg-txt">Apaga os dados do app para recomeçar a importação — tudo ou só uma obra, por tipo de dado. Antes de apagar é criado um ponto de restauração. A planilha conectada não é alterada.</div>
+      <div class="card so-local"><div class="card-h"><h3>🧹 Limpar dados</h3></div><div class="cfg-txt">Apaga os dados do app para recomeçar a importação — tudo ou só uma obra, por tipo de dado. Antes de apagar é criado um ponto de restauração. A planilha conectada não é alterada.</div>
         <div class="cfg-acts"><button class="btn danger" id="btnClearData">🧹 Limpar dados…</button></div></div>
-      <div class="card"><div class="card-h"><h3>🕘 Pontos de restauração</h3></div><div class="cfg-txt">Criados automaticamente antes de cada importação e restauração (os 5 mais recentes, neste navegador). Use para desfazer uma importação.<div id="snapList" style="margin-top:8px"></div></div></div>
-      <div class="card"><div class="card-h"><h3>📦 Armazenamento</h3></div><div class="cfg-txt"><span id="sideLocal">Dados salvos <b>somente neste navegador e neste endereço</b> (<b id="curHost"></b>). Outro navegador, outro computador ou outro endereço do app (inclusive os links de publicação da Vercel) <b>não</b> enxergam estes dados. Baixe o backup regularmente.</span><div id="storeUse" style="margin-top:6px"></div></div></div>
+      <div class="card so-local"><div class="card-h"><h3>🕘 Pontos de restauração</h3></div><div class="cfg-txt">Criados automaticamente antes de cada importação e restauração (os 5 mais recentes, neste navegador). Use para desfazer uma importação.<div id="snapList" style="margin-top:8px"></div></div></div>
+      <div class="card so-local"><div class="card-h"><h3>📦 Armazenamento</h3></div><div class="cfg-txt"><span id="sideLocal">Dados salvos <b>somente neste navegador e neste endereço</b> (<b id="curHost"></b>). Outro navegador, outro computador ou outro endereço do app (inclusive os links de publicação da Vercel) <b>não</b> enxergam estes dados. Baixe o backup regularmente.</span><div id="storeUse" style="margin-top:6px"></div></div></div>
       <div class="card"><div class="card-h"><h3>🖼 Logo</h3></div><div class="cfg-txt">Logo exibido no menu, no celular e nos relatórios PDF. A troca vale para este navegador.</div>
         <div class="cfg-acts"><button class="btn" id="btnLogo">Alterar logo</button><button class="btn ghost" id="btnLogoReset">Voltar ao logo COSAMPA</button></div></div>
     </div>
@@ -826,6 +882,7 @@ const Repo = {
   mode: 'local',
   save(){
     if (this.mode === 'db') { DB.schedule(); return true; }
+    if (this.mode === 'api') return true;   // modo login: dados só na memória (nada fica no aparelho)
     try { const txt = JSON.stringify({version: 2, savedAt: new Date().toISOString(), ...Object.fromEntries(ALLK.map(k => [k, this.pack(k)]))}); this.adapter.write(txt); this.lastBytes = txt.length * 2; paintStorage(); return true; }
     catch (e) { const full = /quota|exceed/i.test(e.name + ' ' + e.message); toast(full ? 'O armazenamento deste navegador está cheio — os dados NÃO foram salvos. Baixe um backup e exclua semanas antigas.' : 'Não foi possível salvar no navegador: ' + e.message, 'err'); return false; }
   },
@@ -3778,6 +3835,7 @@ function applyMenu(){
   if (!on && (UI.tab === 'labor' || UI.tab === 'equip')) switchTab('vg');
 }
 function renderConfig(){
+  renderContaCfg();
   const cp = document.getElementById('cfgPaineis'); if (cp) { cp.checked = showPaineis(); cp.onchange = () => { UI._paineis = cp.checked; try { localStorage.setItem(LS_PAINEIS, cp.checked ? '1' : '0'); } catch (e) {} applyMenu(); toast(cp.checked ? 'Painéis de Mão de obra e Equipamentos visíveis no menu.' : 'Painéis de Mão de obra e Equipamentos ocultos no menu.', 'ok'); }; }
   const ch = document.getElementById('curHost'); if (ch) ch.textContent = location.host || 'arquivo local';
   const c = sheetCfg();
@@ -3870,6 +3928,267 @@ function switchTab(t){
   $$('.tab').forEach(s => s.classList.toggle('on', s.id === 'tab-' + t));
   refreshAll();
 }
+/* =====================================================================
+   LOGIN E SENHA (servidor Google Apps Script — ver apps-script/Codigo.gs)
+   • config.js define API_URL. Vazio = app funciona como antes (sem login).
+   • Com API_URL: a planilha é a fonte única, só leitura; cada usuário vê só as obras dele.
+   ===================================================================== */
+const API = (typeof API_URL === 'string' && API_URL.trim()) ? API_URL.trim() : '';
+const LS_TOK = 'cosampa_token';
+const AUTH = {u: null, token: '', carregando: false, at: null};
+function tokLer(){ try { return localStorage.getItem(LS_TOK) || sessionStorage.getItem(LS_TOK) || ''; } catch (e) { return AUTH.token || ''; } }
+function tokGravar(t, manter){ AUTH.token = t; try { localStorage.removeItem(LS_TOK); sessionStorage.removeItem(LS_TOK); (manter ? localStorage : sessionStorage).setItem(LS_TOK, t); } catch (e) {} }
+/** apaga a sessão e os dados guardados neste aparelho */
+function authLimpar(){
+  AUTH.u = null; AUTH.token = '';
+  try { localStorage.removeItem(LS_TOK); sessionStorage.removeItem(LS_TOK); localStorage.removeItem(LS_KEY); localStorage.removeItem('cosampa_histogramas_snaps'); } catch (e) {}
+  Repo.data = emptyData(); document.body.classList.remove('so-admin', 'so-usuario');
+  if ('caches' in window) caches.keys().then(ks => ks.filter(k => /dados/.test(k)).forEach(k => caches.delete(k))).catch(() => {});
+}
+/** chamada única ao servidor: POST text/plain (sem preflight de CORS) */
+async function api(acao, dados = {}){
+  let r;
+  try { r = await fetch(API, {method: 'POST', headers: {'Content-Type': 'text/plain;charset=utf-8'}, body: JSON.stringify({acao, token: AUTH.token || tokLer(), ...dados}), cache: 'no-store', redirect: 'follow'}); }
+  catch (e) { throw new Error('Sem conexão com o servidor. Verifique a internet e tente de novo.'); }
+  let j; try { j = await r.json(); } catch (e) { throw new Error('O servidor não respondeu como esperado. Confira o link em config.js e se a implantação está como "Qualquer pessoa".'); }
+  if (!j.ok && j.sessao === 'expirada') { authLimpar(); refreshAll(); authMostrar('entrar', j.erro || 'Sua sessão expirou. Entre novamente.'); const e = new Error(j.erro || 'Sessão expirada.'); e.expirada = true; throw e; }
+  if (!j.ok) { const e = new Error(j.erro || 'Não foi possível concluir.'); e.dados = j; throw e; }
+  return j;
+}
+const senhaOk = s => s.length >= 8 && /[A-Za-zÀ-ÿ]/.test(s) && /[0-9]/.test(s);
+function authHTML(){
+  return `<div class="au-card" role="dialog" aria-modal="true" aria-labelledby="auTitulo">
+    <div class="au-logo">${logoHTML()}</div><div class="au-app">Acompanhamento de histograma</div>
+    <form data-tela="entrar" novalidate><h2 id="auTitulo">Entrar</h2>
+      <label class="au-f"><span>Usuário ou e-mail</span><input name="login" autocomplete="username" autocapitalize="none" spellcheck="false" required></label>
+      <label class="au-f"><span>Senha</span><span class="au-pw"><input name="senha" type="password" autocomplete="current-password" required><button type="button" class="au-eye" data-olho aria-label="Mostrar senha">👁</button></span></label>
+      <label class="au-chk"><input type="checkbox" name="manter"> Manter conectado neste aparelho (30 dias)</label>
+      <button class="btn primary au-btn" type="submit">Entrar</button>
+      <button type="button" class="au-link" data-ir="esqueci">Esqueci minha senha</button></form>
+    <form data-tela="trocar" novalidate><h2>Crie uma nova senha</h2>
+      <p class="au-p">Você entrou com uma senha provisória. Para continuar, crie a sua senha.</p>
+      <label class="au-f"><span>Senha atual (provisória)</span><input name="atual" type="password" autocomplete="current-password" required></label>
+      <label class="au-f"><span>Nova senha</span><span class="au-pw"><input name="nova" type="password" autocomplete="new-password" required><button type="button" class="au-eye" data-olho aria-label="Mostrar senha">👁</button></span></label>
+      <label class="au-f"><span>Repita a nova senha</span><input name="conf" type="password" autocomplete="new-password" required></label>
+      <div class="au-regra" data-regra>Mínimo de 8 caracteres, com letras e números.</div>
+      <button class="btn primary au-btn" type="submit">Salvar e continuar</button>
+      <button type="button" class="au-link" data-sair>Sair</button></form>
+    <form data-tela="esqueci" novalidate><h2>Esqueci minha senha</h2>
+      <p class="au-p">Informe seu usuário ou e-mail. Se houver e-mail cadastrado, você recebe um link para criar uma nova senha (vale 60 minutos).</p>
+      <label class="au-f"><span>Usuário ou e-mail</span><input name="login" autocomplete="username" autocapitalize="none" spellcheck="false" required></label>
+      <button class="btn primary au-btn" type="submit">Enviar link</button>
+      <p class="au-p au-dica">E-mails de empresa às vezes bloqueiam mensagens do Gmail. Se não chegar, peça ao administrador um <b>link de convite</b> pelo WhatsApp ou Teams.</p>
+      <button type="button" class="au-link" data-ir="entrar">← Voltar para o login</button></form>
+    <form data-tela="senha" novalidate><h2>Criar nova senha</h2>
+      <p class="au-p" data-quem>Verificando o link…</p>
+      <label class="au-f"><span>Nova senha</span><span class="au-pw"><input name="nova" type="password" autocomplete="new-password" required><button type="button" class="au-eye" data-olho aria-label="Mostrar senha">👁</button></span></label>
+      <label class="au-f"><span>Repita a nova senha</span><input name="conf" type="password" autocomplete="new-password" required></label>
+      <div class="au-regra" data-regra>Mínimo de 8 caracteres, com letras e números.</div>
+      <label class="au-chk"><input type="checkbox" name="manter"> Manter conectado neste aparelho (30 dias)</label>
+      <button class="btn primary au-btn" type="submit">Criar senha e entrar</button>
+      <button type="button" class="au-link" data-ir="entrar">← Ir para o login</button></form>
+    <div class="au-msg" id="auMsg" role="status" aria-live="polite"></div>
+  </div>`;
+}
+function authMostrar(tela, msg = '', tipo = 'err'){
+  const box = $('#auth'); box.hidden = false; document.body.classList.add('auth-on');
+  $$('#auth form').forEach(f => { f.hidden = f.dataset.tela !== tela; });
+  authMsg(msg, tipo);
+  const f = $(`#auth form[data-tela="${tela}"]`); const i = f && $('input', f); if (i && window.innerWidth > 640) setTimeout(() => i.focus(), 50);
+}
+function authMsg(msg, tipo = 'err'){ const m = $('#auMsg'); m.className = 'au-msg ' + (msg ? tipo : ''); m.textContent = msg || ''; }
+function authOcupado(f, on){ const b = $('button[type=submit]', f); if (!b) return; b.disabled = on; if (on) { b.dataset.t = b.textContent; b.textContent = 'Aguarde…'; } else if (b.dataset.t) b.textContent = b.dataset.t; }
+function authCodigoDaUrl(){ const m = location.hash.match(/^#\/senha\/([A-Za-z0-9]{20,})$/); return m ? m[1] : ''; }
+async function authAbrirLink(){
+  const cod = authCodigoDaUrl(); if (!cod) return false;
+  AUTH.codigo = cod; authMostrar('senha'); const q = $('#auth [data-quem]'); q.textContent = 'Verificando o link…';
+  try { const r = await api('verCodigo', {codigo: cod}); q.innerHTML = `Olá, <b>${esc(r.nome || r.usuario)}</b>! Seu usuário é <b>${esc(r.usuario)}</b>. Crie sua senha abaixo.`; }
+  catch (e) { q.textContent = ''; authMsg(e.message); }
+  return true;
+}
+function authIniciar(){
+  document.body.classList.add('modo-api');
+  $('#btnSync').textContent = '⟳ Atualizar dados'; $('#btnSyncM').title = 'Atualizar dados';
+  $('#auth').innerHTML = authHTML();
+  $('#auth').addEventListener('click', e => {
+    const ir = e.target.closest('[data-ir]'); if (ir) { if (ir.dataset.ir === 'entrar' && authCodigoDaUrl()) history.replaceState(null, '', location.pathname + location.search); authMostrar(ir.dataset.ir); }
+    const olho = e.target.closest('[data-olho]'); if (olho) { const i = olho.previousElementSibling; i.type = i.type === 'password' ? 'text' : 'password'; }
+    if (e.target.closest('[data-sair]')) authSair();
+  });
+  $('#auth').addEventListener('input', e => { const f = e.target.form; const rg = f && $('[data-regra]', f); if (!rg) return; const v = f.nova.value; rg.className = 'au-regra ' + (v ? (senhaOk(v) ? 'ok' : 'err') : ''); });
+  $('#auth').addEventListener('submit', async e => {
+    e.preventDefault(); const f = e.target; const t = f.dataset.tela; authMsg('');
+    try {
+      authOcupado(f, true);
+      if (t === 'entrar') {
+        if (!f.login.value.trim() || !f.senha.value) throw new Error('Informe o usuário (ou e-mail) e a senha.');
+        const r = await api('entrar', {login: f.login.value.trim(), senha: f.senha.value, manter: f.manter.checked});
+        tokGravar(r.token, f.manter.checked); f.senha.value = '';
+        if (r.trocar) { AUTH.u = r.usuario; authMostrar('trocar', 'Crie sua senha para continuar.', 'info'); return; }
+        await authEntrarNoApp(r.usuario);
+      } else if (t === 'trocar') {
+        if (f.nova.value !== f.conf.value) throw new Error('As duas senhas novas não são iguais.');
+        if (!senhaOk(f.nova.value)) throw new Error('A nova senha precisa ter pelo menos 8 caracteres, com letras e números.');
+        const r = await api('trocarSenha', {atual: f.atual.value, nova: f.nova.value}); f.reset();
+        await authEntrarNoApp(r.usuario); toast('Senha criada. Bem-vindo(a)!', 'ok');
+      } else if (t === 'esqueci') {
+        const r = await api('esqueci', {login: f.login.value.trim()}); authMsg(r.mensagem, 'ok');
+      } else if (t === 'senha') {
+        if (f.nova.value !== f.conf.value) throw new Error('As duas senhas não são iguais.');
+        if (!senhaOk(f.nova.value)) throw new Error('A senha precisa ter pelo menos 8 caracteres, com letras e números.');
+        const r = await api('redefinir', {codigo: AUTH.codigo, nova: f.nova.value, manter: f.manter.checked});
+        tokGravar(r.token, f.manter.checked); f.reset(); history.replaceState(null, '', location.pathname + location.search);
+        await authEntrarNoApp(r.usuario); toast('Senha criada. Bem-vindo(a)!', 'ok');
+      }
+    } catch (err) { if (!err.expirada) authMsg(err.message); }
+    finally { authOcupado(f, false); }
+  });
+  window.addEventListener('hashchange', () => { if (authCodigoDaUrl()) authAbrirLink(); });
+  $('#btnSync').onclick = $('#btnSyncM').onclick = () => authCarregar(true);
+  $('#btnSair').onclick = $('#btnSairM').onclick = $('#btnSair2').onclick = () => authSair();
+  authComecar();
+}
+async function authComecar(){
+  if (await authAbrirLink()) return;
+  if (!tokLer()) return authMostrar('entrar');
+  AUTH.token = tokLer();
+  try { const r = await api('sessao'); if (r.usuario.trocar) { AUTH.u = r.usuario; return authMostrar('trocar', 'Crie sua senha para continuar.', 'info'); } await authEntrarNoApp(r.usuario); }
+  catch (e) { if (!e.expirada) authMostrar('entrar', e.message); }
+}
+async function authEntrarNoApp(u){
+  AUTH.u = u; const adm = u.perfil === 'admin';
+  document.body.classList.toggle('so-admin', adm); document.body.classList.toggle('so-usuario', !adm);
+  $('#auth').hidden = true; document.body.classList.remove('auth-on');
+  $$('[data-quem-sou]').forEach(el => el.innerHTML = `<b>${esc(u.nome || u.usuario)}</b><small>${adm ? 'Administrador · todas as obras' : esc((u.obras || []).join(', ') || 'sem obras')}</small>`);
+  await authCarregar(false);
+}
+/** lê os dados permitidos e monta o app (substitui tudo; nada é gravado no aparelho) */
+async function authCarregar(manual){
+  if (AUTH.carregando) return; AUTH.carregando = true;
+  const mini = $('#syncMini'); if (mini) { mini.className = 'side-sync load'; mini.innerHTML = '<span class="dot"></span>Carregando dados…'; }
+  try {
+    const r = await api('dados'); AUTH.u = r.usuario;
+    const wb = {SheetNames: [], Sheets: {}};
+    for (const [nome, aoa] of Object.entries(r.abas || {})) { wb.SheetNames.push(nome); wb.Sheets[nome] = aoaParaAba(aoa); }
+    Repo.data = emptyData();
+    const {P} = Sync.plan(wb);
+    Repo.tx(() => { for (const k of ['labor', 'equip']) if (P[k]) commitImport(k, P[k], false, null); if (P.manual) commitResumo(P.manual); if (P.ativ) commitTrk('ativ', P.ativ); });
+    Sync.logErrs(P); (r.avisos || []).forEach(a => Log.add(a, 'warn'));
+    const first = Repo.data.ativ[0] || Repo.data.labor[0]; if (first && !TK.obra) TK.obra = obraKey(first.obra);
+    AUTH.at = new Date(); refreshAll();
+    if (mini) { mini.className = 'side-sync ok'; mini.innerHTML = `<span class="dot"></span>Dados de ${AUTH.at.toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'})}`; }
+    if (manual) toast('Dados atualizados.', 'ok');
+  } catch (e) {
+    if (e.dados && e.dados.trocar) authMostrar('trocar', e.message, 'info');
+    else if (!e.expirada) { toast(e.message, 'err'); if (mini) { mini.className = 'side-sync err'; mini.innerHTML = '<span class="dot"></span>Falha ao carregar'; } }
+  } finally { AUTH.carregando = false; }
+}
+function aoaParaAba(aoa){
+  const ws = {}; let mc = 0;
+  aoa.forEach((row, r) => row.forEach((v, c) => { if (v === '' || v == null) return; mc = Math.max(mc, c); const a = XLSX.utils.encode_cell({r, c}); ws[a] = typeof v === 'number' ? {t: 'n', v, w: String(v)} : {t: 's', v: String(v), w: String(v)}; }));
+  ws['!ref'] = `A1:${XLSX.utils.encode_cell({r: Math.max(0, aoa.length - 1), c: mc})}`;
+  return ws;
+}
+async function authSair(){
+  try { if (AUTH.token || tokLer()) await api('sair'); } catch (e) {}
+  authLimpar(); refreshAll(); authMostrar('entrar', 'Você saiu. Os dados foram apagados deste aparelho.', 'ok');
+}
+
+/* ---------- Configurações → Minha senha / Usuários ---------- */
+function renderContaCfg(){
+  if (!API || !AUTH.u) return;
+  const f = $('#formMinhaSenha'); if (f && !f.dataset.ok) {
+    f.dataset.ok = 1;
+    f.onsubmit = async e => { e.preventDefault(); const m = $('[data-msg]', f); m.className = 'au-msg';
+      try { if (f.nova.value !== f.conf.value) throw new Error('As duas senhas novas não são iguais.'); if (!senhaOk(f.nova.value)) throw new Error('A nova senha precisa ter pelo menos 8 caracteres, com letras e números.');
+        const r = await api('trocarSenha', {atual: f.atual.value, nova: f.nova.value}); f.reset(); m.className = 'au-msg ok'; m.textContent = r.mensagem; }
+      catch (err) { if (!err.expirada) { m.className = 'au-msg err'; m.textContent = err.message; } } };
+  }
+  if (AUTH.u.perfil === 'admin') usrListar();
+}
+async function usrListar(){
+  const box = $('#usrLista'); if (!box) return; box.innerHTML = '<div class="muted">Carregando usuários…</div>';
+  try {
+    const r = await api('usuarios'); AUTH.usuarios = r.usuarios;
+    box.innerHTML = `<div class="tbl-wrap"><table class="usr-t"><thead><tr><th>Nome</th><th>Usuário</th><th>Perfil / obras</th><th>Situação</th><th>Último acesso</th><th>Ações</th></tr></thead><tbody>
+      ${r.usuarios.map(u => `<tr><td class="l"><b>${esc(u.nome)}</b>${u.email ? `<br><small class="muted">${esc(u.email)}</small>` : ''}</td><td class="l">${esc(u.usuario)}</td>
+        <td class="l" style="white-space:normal;max-width:240px">${u.perfil === 'admin' ? '<span class="chip or">Administrador</span>' : esc((u.obras || []).join(', '))}</td>
+        <td>${!u.ativo ? '<span class="chip err">Inativo</span>' : !u.temSenha ? '<span class="chip warn">Aguardando senha</span>' : u.trocar ? '<span class="chip warn">Troca obrigatória</span>' : '<span class="chip ok">Ativo</span>'}</td>
+        <td>${u.ultimoAcesso ? esc(new Date(u.ultimoAcesso).toLocaleString('pt-BR', {dateStyle: 'short', timeStyle: 'short'})) : '—'}</td>
+        <td class="usr-acts"><button class="btn sm" data-usr="alterar" data-u="${esc(u.usuario)}">Alterar</button><button class="btn sm" data-usr="link" data-u="${esc(u.usuario)}">Copiar link de convite</button>${u.email ? `<button class="btn sm" data-usr="email" data-u="${esc(u.usuario)}">Enviar link por e-mail</button>` : ''}${u.usuario !== AUTH.u.usuario ? `<button class="btn sm danger" data-usr="remover" data-u="${esc(u.usuario)}">Remover</button>` : ''}</td></tr>`).join('')}
+      </tbody></table></div>`;
+  } catch (e) { if (!e.expirada) box.innerHTML = `<div class="alert err">${esc(e.message)}</div>`; }
+}
+const sugerirUsuario = nome => { const p = norm(nome).toLowerCase().split(' ').filter(Boolean); return p.length ? (p[0] + (p.length > 1 ? '.' + p[p.length - 1] : '')).replace(/[^a-z0-9._-]/g, '') : ''; };
+async function usrForm(alvo){
+  const u = alvo ? (AUTH.usuarios || []).find(x => x.usuario === alvo) : null;
+  let obras = []; try { obras = (await api('obras')).obras; } catch (e) { if (e.expirada) return; toast(e.message, 'err'); }
+  const tem = new Set((u && u.obras) || []);
+  const body = `<form id="usrF" class="usr-f" novalidate>
+    <div class="form-grid">
+      <div class="fld" style="grid-column:1/-1"><label>Nome *</label><input name="nome" value="${esc(u ? u.nome : '')}" required></div>
+      <div class="fld"><label>E-mail (opcional)</label><input name="email" type="email" value="${esc(u ? u.email : '')}" autocapitalize="none"></div>
+      <div class="fld"><label>Usuário (para entrar) *</label><input name="usuario" value="${esc(u ? u.usuario : '')}" autocapitalize="none" spellcheck="false"><small class="muted">minúsculas, sem espaço e sem acento</small></div>
+    </div>
+    <label class="au-chk" style="margin-top:10px"><input type="checkbox" name="admin" ${u && u.perfil === 'admin' ? 'checked' : ''}> <b>Administrador</b> (vê todas as obras e cadastra usuários)</label>
+    <fieldset class="usr-obras" ${u && u.perfil === 'admin' ? 'hidden' : ''}><legend>Obras que esta pessoa pode ver *</legend>
+      ${obras.length ? obras.map(o => `<label class="au-chk"><input type="checkbox" name="obra" value="${esc(o)}" ${tem.has(o) ? 'checked' : ''}> ${esc(o)}</label>`).join('') : '<div class="muted">Nenhuma obra encontrada na planilha.</div>'}</fieldset>
+    <label class="au-chk"><input type="checkbox" name="ativo" ${!u || u.ativo ? 'checked' : ''}> Acesso ativo</label>
+    <fieldset class="usr-modo"><legend>Senha</legend>
+      ${u ? '<label class="au-chk"><input type="radio" name="modo" value="nenhum" checked> Não mexer na senha</label>' : ''}
+      <label class="au-chk"><input type="radio" name="modo" value="link" ${u ? '' : 'checked'}> Gerar link de convite para eu enviar (WhatsApp / Teams)</label>
+      <label class="au-chk"><input type="radio" name="modo" value="email"> Enviar link por e-mail</label>
+      <label class="au-chk"><input type="radio" name="modo" value="provisoria"> Definir senha provisória (a pessoa troca no primeiro acesso)</label>
+      <input name="senhaProvisoria" type="text" placeholder="Senha provisória (8+ caracteres, letras e números)" hidden autocomplete="off">
+    </fieldset>
+    <div data-msg class="au-msg"></div></form>`;
+  const md = openModal({title: u ? 'Alterar usuário' : 'Novo usuário', body, foot: '<button class="btn" data-x>Cancelar</button><button class="btn primary" data-ok>Salvar</button>'});
+  const f = $('#usrF', md.el); let usuarioEditado = !!u;
+  f.usuario.oninput = () => { usuarioEditado = true; };
+  f.nome.oninput = () => { if (!usuarioEditado) f.usuario.value = sugerirUsuario(f.nome.value); };
+  f.admin.onchange = () => { $('.usr-obras', f).hidden = f.admin.checked; };
+  f.addEventListener('change', e => { if (e.target.name === 'modo') f.senhaProvisoria.hidden = e.target.value !== 'provisoria'; });
+  $('[data-x]', md.el).onclick = md.close;
+  $('[data-ok]', md.el).onclick = async () => {
+    const m = $('[data-msg]', f); const b = $('[data-ok]', md.el); m.className = 'au-msg';
+    const modo = (f.querySelector('input[name=modo]:checked') || {}).value || 'link';
+    const dados = {original: u ? u.usuario : '', nome: f.nome.value.trim(), email: f.email.value.trim(), usuario: f.usuario.value.trim().toLowerCase(), perfil: f.admin.checked ? 'admin' : 'usuario',
+      obras: $$('input[name=obra]:checked', f).map(i => i.value), ativo: f.ativo.checked, modo, senhaProvisoria: f.senhaProvisoria.value};
+    b.disabled = true;
+    try { const r = await api('salvarUsuario', {usuario: dados}); md.close(); usrListar();
+      if (r.link && !r.enviado) usrLinkModal(r.usuario, r.link, r.mensagem);
+      else toast(r.enviado ? 'Usuário salvo e convite enviado por e-mail.' : 'Usuário salvo.', 'ok'); }
+    catch (e) { if (!e.expirada) { m.className = 'au-msg err'; m.textContent = e.message; } }
+    finally { b.disabled = false; }
+  };
+}
+function copiarTexto(txt, ta){
+  const ok = () => toast('Copiado! Agora é só colar no WhatsApp ou Teams.', 'ok');
+  const fallback = () => { try { ta.focus(); ta.select(); ta.setSelectionRange(0, 99999); if (document.execCommand('copy')) return ok(); } catch (e) {} toast('Não deu para copiar automaticamente: o texto ficou selecionado, use Ctrl+C (no celular, toque e segure → Copiar).', 'err'); };
+  if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(txt).then(ok, fallback); else fallback();
+}
+function usrLinkModal(u, link, msg){
+  const md = openModal({title: 'Link de convite — ' + (u.nome || u.usuario), body: `<p class="muted" style="margin-top:0">Envie para a pessoa pelo WhatsApp ou Teams. O link vale <b>72 horas</b> e só funciona uma vez. Gerar outro link cancela o anterior.</p>
+    <label class="fld"><span>Link</span><textarea data-l readonly rows="2" class="usr-ta">${esc(link)}</textarea></label>
+    <label class="fld"><span>Mensagem pronta</span><textarea data-m readonly rows="9" class="usr-ta">${esc(msg)}</textarea></label>
+    <p class="muted" style="font-size:12px">Se os botões não copiarem, toque no texto, selecione tudo e use <b>Ctrl+C</b> (no celular: tocar e segurar → Copiar).</p>`,
+    foot: '<button class="btn" data-cl>Copiar só o link</button><button class="btn primary" data-cm>Copiar mensagem</button><button class="btn" data-x>Fechar</button>'});
+  $('[data-x]', md.el).onclick = md.close;
+  $('[data-cl]', md.el).onclick = () => copiarTexto(link, $('[data-l]', md.el));
+  $('[data-cm]', md.el).onclick = () => copiarTexto(msg, $('[data-m]', md.el));
+}
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-usr]'); if (!b) return; const a = b.dataset.usr, alvo = b.dataset.u;
+  try {
+    if (a === 'novo') return usrForm('');
+    if (a === 'alterar') return usrForm(alvo);
+    if (a === 'link') { b.disabled = true; const r = await api('linkConvite', {alvo}); usrLinkModal((AUTH.usuarios || []).find(x => x.usuario === alvo) || {usuario: alvo}, r.link, r.mensagem); }
+    if (a === 'email') { b.disabled = true; const r = await api('enviarLink', {alvo}); toast(r.mensagem, 'ok'); }
+    if (a === 'remover') { if (!await confirmBox('Remover usuário', `<p>Remover <b>${esc(alvo)}</b>? A pessoa perde o acesso na hora. Isso não apaga nada da planilha de dados.</p>`, 'Remover')) return; await api('removerUsuario', {alvo}); toast('Usuário removido.', 'ok'); usrListar(); }
+  } catch (err) { if (!err.expirada) toast(err.message, 'err'); }
+  finally { b.disabled = false; }
+});
+
 function init(){
   try { Repo.lastBytes = (localStorage.getItem(LS_KEY) || '').length * 2; } catch (e) {} paintLogo(); paintStorage();
   if (!libsOk()) {
@@ -3898,8 +4217,10 @@ function init(){
   $('#btnSyncCfg').onclick = () => Sync.config();
   // Dados: banco compartilhado (se configurado) ou armazenamento local
   DB.loadSess();
-  if (DB.cfg()) { paintDbStatus(); if (DB.sess) enterDbMode(); else showLogin(); }
+  if (API) { Repo.mode = 'api'; Repo.data = emptyData(); refreshAll(); authIniciar(); }
+  else if (DB.cfg()) { paintDbStatus(); if (DB.sess) enterDbMode(); else showLogin(); }
   else { Repo.mode = 'local'; Repo.load(); paintDbStatus(); refreshAll(); Sync.auto(); }
+  if ('serviceWorker' in navigator && /^https:$|^http:$/.test(location.protocol)) navigator.serviceWorker.register('sw.js').catch(() => {});
   window.addEventListener('beforeunload', e => { if (Repo.mode === 'db' && DB.pending) { e.preventDefault(); e.returnValue = ''; } });
   let lastFocus = Date.now(); window.addEventListener('focus', () => { if (Repo.mode === 'db' && !DB.pending && Date.now() - lastFocus > 5 * 60000 && !document.querySelector('.modal-bg')) { lastFocus = Date.now(); reloadFromDb(true); } });
 }
